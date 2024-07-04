@@ -1,6 +1,7 @@
-package kr.co.apiy.entity;
+package kr.co.apiy.member.entity;
 
 import jakarta.persistence.*;
+import kr.co.apiy.global.entity.BaseEntity;
 import lombok.*;
 
 @Entity
@@ -9,10 +10,10 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @ToString
-public class Member extends BaseEntity{
+public class Member extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)

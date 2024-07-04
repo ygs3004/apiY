@@ -1,4 +1,4 @@
-package kr.co.apiy.entity;
+package kr.co.apiy.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(value = AuditingEntityListener.class)
-abstract class BaseEntity {
+public abstract class BaseEntity {
 
     @CreatedDate
     @Column(name = "regdate", updatable = false)

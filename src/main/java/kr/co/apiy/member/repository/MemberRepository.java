@@ -1,6 +1,6 @@
-package kr.co.apiy.repository;
+package kr.co.apiy.member.repository;
 
-import kr.co.apiy.entity.Member;
+import kr.co.apiy.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

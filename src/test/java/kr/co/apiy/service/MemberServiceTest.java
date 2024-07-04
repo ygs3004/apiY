@@ -1,8 +1,9 @@
 package kr.co.apiy.service;
 
-import kr.co.apiy.dto.SignupDTO;
-import kr.co.apiy.entity.Member;
-import kr.co.apiy.repository.MemberRepository;
+import kr.co.apiy.member.dto.SignupDTO;
+import kr.co.apiy.member.entity.Member;
+import kr.co.apiy.member.repository.MemberRepository;
+import kr.co.apiy.member.service.MemberService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class MemberServiceTest {
     @DisplayName("회원가입 테스트")
     @Transactional
     public void signupTest() {
-        SignupDTO testDTO = SignupDTO.builder()
+        SignupDTO.Request testDTO = SignupDTO.Request.builder()
                 .email("ygs3004@naver.com")
                 .name("윤건수")
                 .password("123456")
