@@ -1,6 +1,6 @@
 package kr.co.apiy.service;
 
-import kr.co.apiy.member.dto.SignupDTO;
+import kr.co.apiy.member.dto.SignupRequest;
 import kr.co.apiy.member.entity.Member;
 import kr.co.apiy.member.repository.MemberRepository;
 import kr.co.apiy.member.service.MemberService;
@@ -26,7 +26,7 @@ public class MemberServiceTest {
     @DisplayName("회원가입 테스트")
     @Transactional
     public void signupTest() {
-        SignupDTO.Request testDTO = SignupDTO.Request.builder()
+        SignupRequest testDTO = SignupRequest.builder()
                 .email("ygs3004@naver.com")
                 .name("윤건수")
                 .password("123456")

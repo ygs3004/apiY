@@ -1,7 +1,7 @@
 package kr.co.apiy.member.controller;
 
-import kr.co.apiy.member.dto.LoginDTO;
-import kr.co.apiy.member.dto.SignupDTO;
+import kr.co.apiy.member.dto.LoginRequest;
+import kr.co.apiy.member.dto.SignupRequest;
 import kr.co.apiy.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,14 +20,14 @@ public class MemberController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<HttpStatus> signup(SignupDTO.Request singupRequest) {
-        memberService.signup(singupRequest);
+    public ResponseEntity<HttpStatus> signup(SignupRequest signupRequest) {
+        memberService.signup(signupRequest);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<HttpStatus> login(LoginDTO.Request LoginRequest) {
+    public ResponseEntity<HttpStatus> login(LoginRequest LoginRequest) {
         memberService.login(LoginRequest);
         return ResponseEntity.ok().build();
     }

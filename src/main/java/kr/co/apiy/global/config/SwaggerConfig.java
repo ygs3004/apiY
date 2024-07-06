@@ -2,7 +2,6 @@ package kr.co.apiy.global.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,17 +16,6 @@ public class SwaggerConfig {
                         .version("1.8")
                         .description("Swagger 화면")
                 );
-    }
-
-
-    @Bean
-    public GroupedOpenApi api() {
-        String[] paths = {"/sample/**"};
-        String[] packagesToScan = {"kr.co.apiY"};
-        return GroupedOpenApi.builder().group("springdoc-openapi")
-                .pathsToMatch(paths)
-                .pathsToMatch(packagesToScan)
-                .build();
     }
 
 }

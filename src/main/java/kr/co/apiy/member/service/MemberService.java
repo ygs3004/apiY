@@ -1,12 +1,11 @@
 package kr.co.apiy.member.service;
 
-import kr.co.apiy.member.dto.LoginDTO;
-import kr.co.apiy.member.dto.SignupDTO;
+import kr.co.apiy.member.dto.LoginRequest;
+import kr.co.apiy.member.dto.SignupRequest;
 import kr.co.apiy.member.entity.Member;
 import kr.co.apiy.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +25,7 @@ public class MemberService implements UserDetailsService {
         return null;
     }
 
-    public Member signup(SignupDTO.Request signupRequest) {
+    public Member signup(SignupRequest signupRequest) {
         Member newMember = Member.builder()
                 .email(signupRequest.getEmail())
                 .name(signupRequest.getName())
@@ -35,7 +34,7 @@ public class MemberService implements UserDetailsService {
         return memberRepository.save(newMember);
     }
 
-    public Member login(LoginDTO.Request loginRequest) {
+    public Member login(LoginRequest loginRequest) {
 
         Optional<Member> result = memberRepository.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
         if(result.isEmpty()){
