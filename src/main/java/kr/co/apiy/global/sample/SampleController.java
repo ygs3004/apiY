@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Tag(name = "Sample", description = "Swagger Test Page")
+@Tag(name = "샘플", description = "Javadoc,Swagger TEST")
 public class SampleController {
 
     // Array Response

@@ -36,6 +36,7 @@ public class CORSFilter extends OncePerRequestFilter {
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, allowHeader);
 
         if (HttpMethod.OPTIONS.name().equalsIgnoreCase(request.getMethod())) {
+            // cors preflight 설정
             response.setStatus(HttpServletResponse.SC_OK);
         }else{
             filterChain.doFilter(request, response);

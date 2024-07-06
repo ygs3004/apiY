@@ -3,6 +3,7 @@ package kr.co.apiy.member.service;
 import kr.co.apiy.member.dto.LoginRequest;
 import kr.co.apiy.member.dto.SignupRequest;
 import kr.co.apiy.member.entity.Member;
+import kr.co.apiy.member.entity.MemberRole;
 import kr.co.apiy.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,6 +32,7 @@ public class MemberService implements UserDetailsService {
                 .name(signupRequest.getName())
                 .password(signupRequest.getPassword())
                 .build();
+        newMember.addMemberRole(MemberRole.USER);
         return memberRepository.save(newMember);
     }
 
