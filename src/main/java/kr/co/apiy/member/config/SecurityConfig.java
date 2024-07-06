@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Log4j2
 public class SecurityConfig {
 
-    private final MemberService memberService;
+    private final CustomUserDetailsService customUserDetailsService;
     @Value("${jwt.secret}") String secretKey;
 
     @Bean
@@ -35,7 +36,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(memberService).passwordEncoder(passwordEncoder());
+        authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         httpSecurity.authenticationManager(authenticationManager);
 
@@ -53,7 +54,6 @@ public class SecurityConfig {
                             .invalidateHttpSession(false);
         });
 
-
         // 세션마다 생성되는 토큰값 disabled
         // 외부에서의 API 요청을 인정할때는 disabled
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
@@ -64,31 +64,25 @@ public class SecurityConfig {
 
         // httpSecurity.rememberMe(rememberMeConfigurer -> {
         //     rememberMeConfigurer.tokenValiditySeconds(60 * 60 * 24 * 7);
-        //     rememberMeConfigurer.userDetailsService(userDetailsService);
+        //     rememberMeConfigurer.userDetailsService(memberService);
         // });
 
         // httpSecurity.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class);
-        // httpSecurity.addFilterBefore(apiLoginFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(apiLoginFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
-
-    // @Bean
-    // public ClubLoginSuccessHandler successHandler() {
-    //     return new ClubLoginSuccessHandler(passwordEncoder());
-    // }
 
     // @Bean
     // public ApiCheckFilter apiCheckFilter() {
     //     return new ApiCheckFilter("/notes/**/*", jwtUtil());
     // }
 
-    // public ApiLoginFilter apiLoginFilter(AuthenticationManager authenticationManager) {
-    //     ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/api/login", jwtUtil());
-    //     apiLoginFilter.setAuthenticationManager(authenticationManager);
-    //     apiLoginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
-    //     return apiLoginFilter;
-    // }
+    public ApiLoginFilter apiLoginFilter(AuthenticationManager authenticationManager) {
+        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/member/login", jwtUtil());
+        apiLoginFilter.setAuthenticationManager(authenticationManager);
+        return apiLoginFilter;
+    }
 
     @Bean
     public JwtUtils jwtUtil(){

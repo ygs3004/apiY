@@ -1,6 +1,7 @@
 package kr.co.apiy.member.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import kr.co.apiy.member.dto.LoginRequest;
 import kr.co.apiy.member.dto.SignupRequest;
 import kr.co.apiy.member.service.MemberService;
@@ -22,16 +23,15 @@ public class MemberController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<HttpStatus> signup(SignupRequest signupRequest) {
+    public ResponseEntity<HttpStatus> signup(@Valid SignupRequest signupRequest) {
         memberService.signup(signupRequest);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<HttpStatus> login(LoginRequest LoginRequest) {
-        memberService.login(LoginRequest);
-        return ResponseEntity.ok().build();
+    public void login(LoginRequest LoginRequest) {
+        /* Spring Security 처리 */
     }
 
 }

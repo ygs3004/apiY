@@ -32,7 +32,6 @@ public class Member extends BaseEntity {
     @Convert(converter = Converters.ForMemberRole.class)
     private Set<MemberRole> roleSet = new HashSet<>();
 
-
     public void addMemberRole(MemberRole memberRole){
         roleSet.add(memberRole);
     }
