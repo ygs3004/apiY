@@ -1,6 +1,5 @@
 package kr.co.apiy.member.config;
 
-import kr.co.apiy.member.service.MemberService;
 import kr.co.apiy.member.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -73,15 +72,16 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-    // @Bean
-    // public ApiCheckFilter apiCheckFilter() {
-    //     return new ApiCheckFilter("/notes/**/*", jwtUtil());
-    // }
+    @Bean
+    public AccessTokenCheckFilter apiCheckFilter() {
+        // return new AccessTokenCheckFilter("/auth/**/*", jwtUtil());
+        return new AccessTokenCheckFilter("/sample/security", jwtUtil());
+    }
 
-    public ApiLoginFilter apiLoginFilter(AuthenticationManager authenticationManager) {
-        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/member/login", jwtUtil());
-        apiLoginFilter.setAuthenticationManager(authenticationManager);
-        return apiLoginFilter;
+    public LoginFilter apiLoginFilter(AuthenticationManager authenticationManager) {
+        LoginFilter loginFilter = new LoginFilter("/member/login", jwtUtil());
+        loginFilter.setAuthenticationManager(authenticationManager);
+        return loginFilter;
     }
 
     @Bean

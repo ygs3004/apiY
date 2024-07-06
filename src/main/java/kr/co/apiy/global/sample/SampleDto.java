@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SampleDto {
 
-    @Schema(description = "Sample Request 형식입니다.")
+    @Schema(name = "SampleRequest", description = "Sample Request 형식입니다.")
     @Setter
     @Getter
     public static class Request{
@@ -23,7 +23,7 @@ public class SampleDto {
         private String parameter2;
     }
 
-    @Schema(name = "SampleResponseName", description = "Response 객체")
+    @Schema(name = "SampleResponse", description = "Response 객체")
     @Setter
     public static class Response{
         private String message;

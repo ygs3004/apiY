@@ -19,18 +19,18 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 @Log4j2
-public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
+public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private final JwtUtils jwtUtils;
 
-    public ApiLoginFilter(String defaultFilterProcessesUrl, JwtUtils jwtUtils) {
+    public LoginFilter(String defaultFilterProcessesUrl, JwtUtils jwtUtils) {
         super(defaultFilterProcessesUrl);
         this.jwtUtils = jwtUtils;
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.info("Api Login Filter..............................................");
+        log.info("Login Filter..............................................");
         log.info("=================== attemptAuthentication ===================");
 
         String email = request.getParameter("email");
@@ -43,7 +43,6 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
             log.info(e.getMessage());
             throw new LoginFailException("아이디 또는 비밀번호가 잘못 되었습니다.");
         }
-
 
     }
 
@@ -58,7 +57,8 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
             String token = jwtUtils.createJwt(email);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
             JSONObject json = new JSONObject();
-            json.put("token", token);
+            json.put("tokenType", JwtUtils.TOKEN_TYPE_BEARER);
+            json.put("accessToken", token);
             out.print(json);
         } catch (IOException e) {
             e.printStackTrace();

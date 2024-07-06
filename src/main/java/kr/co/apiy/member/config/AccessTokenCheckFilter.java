@@ -15,13 +15,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Log4j2
-public class ApiCheckFilter extends OncePerRequestFilter {
+public class AccessTokenCheckFilter extends OncePerRequestFilter {
 
     private final AntPathMatcher antPathMatcher;
-    private String pattern;
-    private JwtUtils jwtUtils;
+    private final String pattern;
+    private final JwtUtils jwtUtils;
 
-    public ApiCheckFilter(String pattern, JwtUtils jwtUtils) {
+    public AccessTokenCheckFilter(String pattern, JwtUtils jwtUtils) {
         this.antPathMatcher = new AntPathMatcher();
         this.pattern = pattern;
         this.jwtUtils = jwtUtils;
@@ -31,15 +31,14 @@ public class ApiCheckFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         log.info("REQUEST URI: " + request.getRequestURI());
-        log.info(antPathMatcher.match(pattern, request.getRequestURI()));
+        log.info("Need Auth: " + antPathMatcher.match(pattern, request.getRequestURI()));
 
         if (antPathMatcher.match(pattern, request.getRequestURI())) {
-            log.info("Api Check Filter..............................................");
+            log.info("Access Token Check..............................................");
 
             boolean checkHeader = checkAuthHeader(request);
             if (checkHeader) {
                 filterChain.doFilter(request, response);
-                return;
             } else {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setContentType("application/json;charset=utf-8");
@@ -50,8 +49,8 @@ public class ApiCheckFilter extends OncePerRequestFilter {
 
                 PrintWriter out = response.getWriter();
                 out.print(json);
-                return;
             }
+            return;
         }
 
         filterChain.doFilter(request, response);
@@ -63,7 +62,7 @@ public class ApiCheckFilter extends OncePerRequestFilter {
         boolean checkResult = false;
 
         String authHeader = request.getHeader("Authorization");
-        String tokenPrefix = "Bearer ";
+        String tokenPrefix = JwtUtils.TOKEN_TYPE_BEARER + " ";
         log.info("checkAuthHeader: " + authHeader);
         int tokenStartIndex = tokenPrefix.length();
 

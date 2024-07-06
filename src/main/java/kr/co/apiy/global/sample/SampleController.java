@@ -6,18 +6,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Tag(name = "샘플", description = "Javadoc,Swagger TEST")
+@RequestMapping("/sample")
 public class SampleController {
 
     // Array Response
@@ -33,7 +32,7 @@ public class SampleController {
             @ApiResponse(responseCode = "200", description = "성공", content = {@Content(schema = @Schema(implementation = SampleDto.Request.class))}),
             @ApiResponse(responseCode = "404", description = "해당 ID의 유저가 존재하지 않습니다."),
     })
-    @PostMapping("/sample")
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<SampleDto.Response> testSample(
             @Valid
@@ -57,5 +56,12 @@ public class SampleController {
 
     private String returnResult(SampleDto.Request sampleRequest, int queryParam1, int queryParam2) {
         return "result: = " + sampleRequest.getParameter1() + ", " + sampleRequest.getParameter2() + System.lineSeparator() + "query1: " + queryParam1 +", query2: " + queryParam2;
+    }
+
+    @PostMapping("/security")
+    @Operation(summary = "Security Sample API", description = "로그인이 필요해요", security = { @SecurityRequirement(name = "bearer-key") })
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> testSample() {
+        return ResponseEntity.ok().body("성공");
     }
 }
