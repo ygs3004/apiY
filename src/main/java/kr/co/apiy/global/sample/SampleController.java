@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,12 +39,10 @@ public class SampleController {
             @Schema(implementation = SampleDto.Request.class)
             SampleDto.Request sampleRequest,
 
-            @Positive(message = "유저 ID는 양수입니다.")
-            @Schema(description = "Member ID", example = "1")
+            @Parameter(description = "Member ID", example = "1")
             int queryParam1,
 
-            @Positive(message="유저 ID는 양수입니다.")
-            @Parameter(name = "query2", description = "로그인 유저 ID 값", example = "3", required = true)
+            @Parameter(name = "queryParam2", description = "로그인 유저 ID 값", example = "3", required = true)
             int queryParam2
     ) {
         SampleDto.Response sampleResponse = new SampleDto.Response();

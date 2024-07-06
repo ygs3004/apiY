@@ -19,7 +19,7 @@ public class SampleDto {
         @NotBlank(message = "필수 입력값입니다.")
         private String parameter1;
 
-        @Schema(description = "param2 입니다.", example = "asdf")
+        @NotBlank(message = "필수 입력값입니다.")
         private String parameter2;
     }
 

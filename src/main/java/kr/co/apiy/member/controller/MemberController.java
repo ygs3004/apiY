@@ -31,7 +31,7 @@ public class MemberController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public void login(LoginRequest LoginRequest) {
-        /* Spring Security 처리 */
+        /* Spring Security Filter 에서 처리, Controller 진입전에 처리완료 */
     }
 
 }
