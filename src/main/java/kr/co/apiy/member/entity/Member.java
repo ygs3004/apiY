@@ -2,7 +2,11 @@ package kr.co.apiy.member.entity;
 
 import jakarta.persistence.*;
 import kr.co.apiy.global.entity.BaseEntity;
+import kr.co.apiy.global.utils.Converters;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -23,5 +27,14 @@ public class Member extends BaseEntity {
     private String password;
 
     private String name;
+
+    @Builder.Default
+    @Convert(converter = Converters.ForMemberRole.class)
+    private Set<MemberRole> roleSet = new HashSet<>();
+
+
+    public void addMemberRole(MemberRole memberRole){
+        roleSet.add(memberRole);
+    }
 
 }
