@@ -1,14 +1,41 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import {RouterLink, RouterView} from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import {getCurrentInstance, onMounted, ref} from "vue";
+
+const {proxy} = getCurrentInstance();
+const {$axios} = proxy;
+
+const count = ref(0);
+const increment = () => {
+  count.value++;
+}
+onMounted(() => {
+  console.log(`First onMounted`)
+  const queryParams = {
+    queryParam1: 1,
+    queryParam2: 2,
+  }
+
+  const params = {
+    parameter1: "1번 파라미터",
+    parameter2: "2번 파라미터",
+  };
+
+  const query = new URLSearchParams(queryParams).toString();
+  const url = `/sample/test?${query}`;
+
+  $axios.post(url, params).then((res) => console.log(res));
+})
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <div @click="increment">{{ count }}</div>
+      <HelloWorld msg="You did it!"/>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -17,7 +44,7 @@ import HelloWorld from './components/HelloWorld.vue'
     </div>
   </header>
 
-  <RouterView />
+  <RouterView/>
 </template>
 
 <style scoped>

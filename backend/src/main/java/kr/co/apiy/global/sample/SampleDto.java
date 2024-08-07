@@ -25,6 +25,7 @@ public class SampleDto {
 
     @Schema(name = "SampleResponse", description = "Response 객체")
     @Setter
+    @Getter
     public static class Response{
         private String message;
     }

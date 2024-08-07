@@ -1,5 +1,26 @@
 services:
 
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    env_file:
+      - .env
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+#      MYSQL_DATABASE: ${DB_NAME}
+#      MYSQL_USER: ${DB_USER}
+#      MYSQL_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      start_period: 1s
+      interval: 1s
+      timeout: 4s
+      retries: 3
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "${DB_PORT}:3306"
+
   backend:
     # build:
     #  context: ./backend
@@ -8,9 +29,14 @@ services:
     #    some-arg: 1
     build:
       context: .
-      dockerfile: ./Dockerfiles/backend.Dockerfile
+      dockerfile: ./Dockerfiles/backend-dev.Dockerfile
     ports:
       - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      mariadb:
+        condition: service_healthy
 #    volumes:
 #      - logs:/app/logs
 #      - ./backend:/app
@@ -18,12 +44,15 @@ services:
 #    env_file:
 #      - ./env/backend.env
 
+
   frontend:
     build:
       context: .
-      dockerfile: ./Dockerfiles/frontend.Dockerfile
+      dockerfile: ./Dockerfiles/frontend-dev.Dockerfile
     ports:
       - "8000:8000"
+    env_file:
+      - .env
 #    volumes:
 #      - ./frontend/src:/app/src
     depends_on:
@@ -32,4 +61,3 @@ services:
 #volumes:
 #  data:
 #  logs:
-

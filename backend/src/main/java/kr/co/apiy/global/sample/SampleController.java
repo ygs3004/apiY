@@ -9,11 +9,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Log4j2
 @Tag(name = "샘플", description = "Javadoc,Swagger TEST")
 @RequestMapping("/sample/*")
 public class SampleController {
@@ -28,10 +30,10 @@ public class SampleController {
 
     @Operation(summary = "Sample API", description = "테스트합니다")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공", content = {@Content(schema = @Schema(implementation = SampleDto.Request.class))}),
+            @ApiResponse(responseCode = "200", description = "성공", content = {@Content(schema = @Schema(implementation = SampleDto.Response.class))}),
             @ApiResponse(responseCode = "404", description = "해당 ID의 유저가 존재하지 않습니다."),
     })
-    @PostMapping("/")
+    @PostMapping("/test")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<SampleDto.Response> testSample(
             @Valid
@@ -50,6 +52,8 @@ public class SampleController {
         SampleDto.Response sampleResponse = new SampleDto.Response();
         String resultMessage = returnResult(sampleRequest, queryParam1, queryParam2);
         sampleResponse.setMessage(resultMessage);
+
+        log.info("Sample Response >>>>> {}", sampleResponse);
         return ResponseEntity.ok(sampleResponse);
     }
 

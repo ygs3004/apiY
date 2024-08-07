@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,9 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CORSFilter extends OncePerRequestFilter {
 
+    @Value("${allowed.origin}")
+    String ALLOW_ORIGIN;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String[] allowHeadersArr = {
@@ -29,7 +33,7 @@ public class CORSFilter extends OncePerRequestFilter {
         };
         String allowHeader = String.join(", ", allowHeadersArr);
 
-        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ALLOW_ORIGIN);
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "*");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, "3600");

@@ -50,7 +50,11 @@ dependencies {
 
     // database H2
     // https://mvnrepository.com/artifact/com.h2database/h2
-    implementation group: 'com.h2database', name: 'h2', version: '2.2.224'
+    // implementation group: 'com.h2database', name: 'h2', version: '2.2.224'
+
+    // Maria DB
+    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.4.1'
 
     // springdoc - swagger
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
