@@ -3,7 +3,7 @@ FROM node:latest
 WORKDIR /app
 
 # docker run 명령어에 추가해줌, init 만 해도 프로젝트가 생성
-ENTRYPOINT ["npm"]
+ENTRYPOINT ["yarn"]
 
 # node image build
 # docker build -t node-util .

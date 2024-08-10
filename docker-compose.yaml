@@ -28,9 +28,10 @@ services:
     #  dockerfile: Dockerfile
     #  args:
     #    some-arg: 1
+    container_name: backend
     build:
       context: .
-      dockerfile: ./Dockerfiles/backend-dev.Dockerfile
+      dockerfile: ./Dockerfiles/backend.Dockerfile
     ports:
       - "8080:8080"
     env_file:
@@ -47,9 +48,10 @@ services:
 
 
   frontend:
+    container_name: frontend
     build:
       context: .
-      dockerfile: ./Dockerfiles/frontend-dev.Dockerfile
+      dockerfile: ./Dockerfiles/frontend.Dockerfile
     ports:
       - "80:80"
     env_file:
