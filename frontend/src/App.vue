@@ -1,6 +1,5 @@
 <script setup>
 import {RouterLink, RouterView} from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 import {getCurrentInstance, onMounted, ref} from "vue";
 
 const {proxy} = getCurrentInstance();
@@ -35,7 +34,6 @@ onMounted(() => {
 
     <div class="wrapper">
       <div @click="increment">{{ count }}</div>
-      <HelloWorld msg="You did it!"/>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
