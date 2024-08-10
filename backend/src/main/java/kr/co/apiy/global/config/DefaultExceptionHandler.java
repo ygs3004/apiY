@@ -14,7 +14,7 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<String> invalid(RuntimeException e) {
-        e.printStackTrace();
+        log.warn(e.getMessage(), e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

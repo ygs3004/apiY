@@ -1,7 +1,7 @@
 package kr.co.apiy.global.utils;
 
 import jakarta.persistence.Converter;
-import kr.co.apiy.member.entity.MemberRole;
+import kr.co.apiy.auth.entity.MemberRole;
 
 public class Converters {
 

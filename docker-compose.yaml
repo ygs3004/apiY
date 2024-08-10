@@ -30,7 +30,7 @@ services:
     #    some-arg: 1
     build:
       context: .
-      dockerfile: ./Dockerfiles/backend.Dockerfile
+      dockerfile: ./Dockerfiles/backend-dev.Dockerfile
     ports:
       - "8080:8080"
     env_file:
@@ -49,13 +49,13 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: ./Dockerfiles/frontend.Dockerfile
+      dockerfile: ./Dockerfiles/frontend-dev.Dockerfile
     ports:
       - "80:80"
     env_file:
       - .env
-#    volumes:
-#      - ./frontend/src:/app/src
+    volumes:
+      - ./frontend/src:/app/src
 #      - ./frontend/node_modules:/app/node_modules
     depends_on:
       - backend
