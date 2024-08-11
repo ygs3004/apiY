@@ -31,10 +31,9 @@ public class SampleController {
     @Operation(summary = "Sample API", description = "테스트합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = {@Content(schema = @Schema(implementation = SampleDto.Response.class))}),
-            @ApiResponse(responseCode = "404", description = "해당 ID의 유저가 존재하지 않습니다."),
+            // @ApiResponse(responseCode = "404", description = "해당 ID의 유저가 존재하지 않습니다."),
     })
     @PostMapping("/test")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<SampleDto.Response> testSample(
             @Valid
             @RequestBody
@@ -62,9 +61,17 @@ public class SampleController {
     }
 
     @PostMapping("/security")
-    @Operation(summary = "Security Sample API", description = "로그인이 필요해요", security = { @SecurityRequirement(name = "bearer-key") })
-    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Security Sample API", description = "로그인이 처리 테스트", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<String> testSample() {
         return ResponseEntity.ok().body("성공");
     }
+
+    @PostMapping("/healthcheck")
+    @Operation(summary = "Healthcheck", description = "서버 연결 확인")
+    public ResponseEntity<String> healthcheck() {
+        String success = "Healthcheck: Success";
+        log.info(success);
+        return ResponseEntity.ok(success);
+    }
+
 }

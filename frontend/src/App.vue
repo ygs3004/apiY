@@ -1,6 +1,6 @@
 <script setup>
-import {RouterLink, RouterView} from 'vue-router'
 import {getCurrentInstance, onMounted, ref} from "vue";
+
 
 const {proxy} = getCurrentInstance();
 const {$axios} = proxy;
@@ -10,101 +10,36 @@ const increment = () => {
   count.value++;
 }
 onMounted(() => {
-  console.log(`First onMounted`)
-  const queryParams = {
-    queryParam1: 1,
-    queryParam2: 2,
-  }
-
-  const params = {
-    parameter1: "1번 파라미터",
-    parameter2: "2번 파라미터",
-  };
-
-  const query = new URLSearchParams(queryParams).toString();
-  const url = `/sample/test?${query}`;
-
-  $axios.post(url, params).then((res) => console.log(res));
+  increment()
+  $axios.post("/sample/healthcheck").then((res) => console.log(res));
 })
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
+  <v-layout class="rounded rounded-md">
+    <v-app-bar color="secondary" title="매일 매일 행복하게 꿀잠자는 하루되기"></v-app-bar>
 
-    <div class="wrapper">
-      <div @click="increment">{{ count }}</div>
+    <v-navigation-drawer
+        expand-on-hover
+        rail
+    >
+      <v-list>
+        <v-list-item prepend-icon="mdi-menu" title="전체 메뉴" value="" ></v-list-item>
+      </v-list>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+      <v-divider></v-divider>
 
-  <RouterView/>
+      <v-list density="compact" nav>
+        <v-list-item prepend-icon="mdi-calendar" title="오늘 하루"></v-list-item>
+        <v-list-item prepend-icon="mdi-pencil" title="자유게시판"></v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main class="d-flex align-center justify-center" style="min-height: 300px;">
+      Main Content
+    </v-main>
+  </v-layout>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
 </style>
