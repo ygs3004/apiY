@@ -3,6 +3,8 @@ services:
   mariadb:
     image: mariadb:latest
     container_name: mariadb
+    environment:
+      TZ: "Asia/Seoul"
     env_file:
       - .env
 #    environment:
@@ -29,9 +31,11 @@ services:
     #  args:
     #    some-arg: 1
     container_name: backend
+    environment:
+      TZ: "Asia/Seoul"
     build:
       context: .
-      dockerfile: ./Dockerfiles/backend.Dockerfile
+      dockerfile: ./Dockerfiles/backend-dev.Dockerfile
     ports:
       - "8080:8080"
     env_file:
@@ -49,9 +53,11 @@ services:
 
   frontend:
     container_name: frontend
+    environment:
+      TZ: "Asia/Seoul"
     build:
       context: .
-      dockerfile: ./Dockerfiles/frontend.Dockerfile
+      dockerfile: ./Dockerfiles/frontend-dev.Dockerfile
     ports:
       - "80:80"
     env_file:

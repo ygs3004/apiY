@@ -1,4 +1,4 @@
-package kr.co.apiy.auth;
+package kr.co.apiy.auth.utils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

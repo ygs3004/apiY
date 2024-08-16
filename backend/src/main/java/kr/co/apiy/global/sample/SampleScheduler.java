@@ -1,18 +1,16 @@
-package kr.co.apiy.rank.scheduler;
+package kr.co.apiy.global.sample;
 
 import kr.co.apiy.global.utils.ApiRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
 @Log4j2
 @RequiredArgsConstructor
-public class TestTask {
+public class SampleScheduler {
     // 초 분 시간 일 월 요일
     // 매일 자정에 실행: 0 0 0 * * ?
     // 매일 오전 9시 실행: 0 0 9 * * ?

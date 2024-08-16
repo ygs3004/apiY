@@ -9,12 +9,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "MEMBER")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @ToString
-public class Member extends BaseEntity {
+public class MemberEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -4,7 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kr.co.apiy.auth.JwtUtils;
+import kr.co.apiy.auth.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONObject;
 import org.springframework.util.AntPathMatcher;

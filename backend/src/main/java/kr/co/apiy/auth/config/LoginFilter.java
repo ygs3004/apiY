@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.apiy.auth.dto.AuthMemberDto;
 import kr.co.apiy.auth.exception.LoginFailException;
-import kr.co.apiy.auth.JwtUtils;
+import kr.co.apiy.auth.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;

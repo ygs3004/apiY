@@ -2,7 +2,7 @@ FROM openjdk:17-jdk-slim-buster AS builder
 
 WORKDIR /backend
 
-COPY . .
+#COPY . .
 
 ARG JAR_FILE_PATH=/backend/build/libs/*.jar
 

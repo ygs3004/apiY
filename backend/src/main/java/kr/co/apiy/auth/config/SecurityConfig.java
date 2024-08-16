@@ -1,6 +1,6 @@
 package kr.co.apiy.auth.config;
 
-import kr.co.apiy.auth.JwtUtils;
+import kr.co.apiy.auth.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;

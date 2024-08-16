@@ -1,7 +1,7 @@
 package kr.co.apiy.auth.config;
 
 import kr.co.apiy.auth.dto.AuthMemberDto;
-import kr.co.apiy.auth.entity.Member;
+import kr.co.apiy.auth.entity.MemberEntity;
 import kr.co.apiy.auth.exception.LoginFailException;
 import kr.co.apiy.auth.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,14 +26,14 @@ public class CustomUserDetailsService implements UserDetailsService{
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         log.info("requestEmail: " + email);
-        Optional<Member> result = memberRepository.findByEmail(email);
+        Optional<MemberEntity> result = memberRepository.findByEmail(email);
 
         if (result.isPresent()) {
-            Member member = result.get();
+            MemberEntity memberEntity = result.get();
             return new AuthMemberDto(
-                    member.getEmail(),
-                    member.getPassword(),
-                    member.getRoleSet().stream()
+                    memberEntity.getEmail(),
+                    memberEntity.getPassword(),
+                    memberEntity.getRoleSet().stream()
                             .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                             .collect(Collectors.toList()));
 

@@ -6,7 +6,17 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/HomeView.vue')
+      redirect: '/today'
+    },
+    {
+      path: '/today',
+      name: 'today',
+      component: () => import('@/views/today/today.vue')
+    },
+    {
+      path: '/board',
+      name: 'board',
+      component: () => import('@/views/board/board-list.vue')
     },
     // {
     //   path: '/about',

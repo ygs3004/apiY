@@ -1,7 +1,10 @@
 <script setup>
 </script>
+
 <template>
-  <main>
-    <h1>홈뷰?11</h1>
-  </main>
+  <h1>게시판</h1>
 </template>
+
+<style scoped>
+
+</style>
