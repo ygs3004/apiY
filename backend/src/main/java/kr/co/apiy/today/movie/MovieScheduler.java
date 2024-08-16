@@ -39,21 +39,21 @@ public class MovieScheduler {
         this.jsonUtils = jsonUtils;
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void updateMovieData() {
-        String baseUrl = "http://www.kobis.or.kr";
-        String subUrl = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json";
-        Map<String, String> queryParam = new HashMap<>();
-
-        LocalDateTime today = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyymmdd");
-        String targetDt = today.format(formatter);
-
-        queryParam.put("key", MOVIE_RANK_KEY);
-        queryParam.put("targetDt", targetDt);
-
-        String response = apiRequest.get(baseUrl, subUrl, queryParam);
-        log.info(response);
-    }
+    // @Scheduled(cron = "0 0 0 * * ?")
+    // public void updateMovieData() {
+    //     String baseUrl = "http://www.kobis.or.kr";
+    //     String subUrl = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json";
+    //     Map<String, String> queryParam = new HashMap<>();
+    //
+    //     LocalDateTime today = LocalDateTime.now();
+    //     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyymmdd");
+    //     String targetDt = today.format(formatter);
+    //
+    //     queryParam.put("key", MOVIE_RANK_KEY);
+    //     queryParam.put("targetDt", targetDt);
+    //
+    //     String response = apiRequest.get(baseUrl, subUrl, queryParam);
+    //     log.info(response);
+    // }
 
 }

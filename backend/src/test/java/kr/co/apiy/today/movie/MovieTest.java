@@ -14,7 +14,7 @@ public class MovieTest {
 
     @Test
     public void movieSchedulerTest() {
-        movieScheduler.updateMovieData();
+        // movieScheduler.updateMovieData();
     }
 
 }
