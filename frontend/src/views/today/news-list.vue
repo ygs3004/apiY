@@ -13,9 +13,6 @@ const goPage = (link) => {
 
 <template>
   <v-row>
-
-  </v-row>
-  <v-row>
     <v-col v-for="news in newsList" :key="news.title" cols="12">
       <v-card color="secondary">
         <v-card-item class="cursor-pointer" @click="goPage(news.originallink || news.link)">
