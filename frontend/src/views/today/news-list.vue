@@ -1,11 +1,11 @@
 <script setup>
 import {getCurrentInstance} from "vue";
-import router from "@/router/index.js";
 
 const {proxy} = getCurrentInstance();
 const {$axios} = proxy;
 
 const newsList = await $axios.get("/news/latest").then(response => response.data);
+console.log(newsList);
 const goPage = (link) => {
   location.href=link;
 }
