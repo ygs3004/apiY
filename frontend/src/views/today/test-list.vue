@@ -15,6 +15,7 @@ export default{
 
   beforeCreate() {
     this.newsList = this.$axios.get("/news/latest").then(response => response.data);
+    console.log("newsList Options", this.newsList);
   }
 }
 </script>

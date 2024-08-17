@@ -1,5 +1,6 @@
 <script setup>
 import NewsList from "@/views/today/news-list.vue";
+import TestList from "@/views/today/test-list.vue";
 
 </script>
 
@@ -8,6 +9,7 @@ import NewsList from "@/views/today/news-list.vue";
     <v-row>
       <h1>테스트</h1>
       <NewsList/>
+      <test-list/>
     </v-row>
   </v-col>
 </template>
