@@ -2,11 +2,10 @@ package kr.co.apiy.today.news;
 
 import kr.co.apiy.global.utils.ApiRequest;
 import kr.co.apiy.global.utils.JsonUtils;
-import kr.co.apiy.today.dto.NewsApiResponse;
+import kr.co.apiy.today.dto.NewsApiResult;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -34,7 +33,7 @@ public class NewsApi {
         this.NAVER_CLIENT_SECRET = NAVER_CLIENT_SECRET;
     }
 
-    public NewsApiResponse getLatestNewsData() {
+    public NewsApiResult getLatestNewsData() {
         log.info("===============================================");
         log.info("News Api getLatestNewsData");
 
@@ -52,7 +51,7 @@ public class NewsApi {
 
         String response = apiRequest.get(baseUrl, subUrl, queryParam, header);
 
-        return jsonUtils.fromJson(response, NewsApiResponse.class);
+        return jsonUtils.fromJson(response, NewsApiResult.class);
     }
 
 

@@ -2,7 +2,7 @@ package kr.co.apiy.auth.member;
 
 import kr.co.apiy.auth.dto.SignupRequest;
 import kr.co.apiy.auth.entity.MemberEntity;
-import kr.co.apiy.auth.entity.MemberRole;
+import kr.co.apiy.auth.dto.MemberRole;
 import kr.co.apiy.auth.exception.SignupFailException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

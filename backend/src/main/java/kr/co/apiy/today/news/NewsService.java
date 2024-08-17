@@ -1,8 +1,8 @@
 package kr.co.apiy.today.news;
 
 import kr.co.apiy.global.Constants;
-import kr.co.apiy.today.dto.NewsApiResponse;
-import kr.co.apiy.today.dto.NewsItem;
+import kr.co.apiy.today.dto.NewsApiResult;
+import kr.co.apiy.today.dto.News;
 import kr.co.apiy.today.entity.NewsEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -33,7 +33,7 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final NewsApi newsApi;
 
-    public List<NewsItem> getLatestNews() {
+    public List<News> getLatestNews() {
 
         this.checkLatest();
 
@@ -41,7 +41,7 @@ public class NewsService {
         Page<NewsEntity> result = newsRepository.findAll(pageable);
         return result.getContent()
                 .stream()
-                .map(newsEntity -> NewsItem.builder()
+                .map(newsEntity -> News.builder()
                         .title(
                                 Jsoup.parse(newsEntity.getTitle()).text()
                         )
@@ -73,18 +73,18 @@ public class NewsService {
         );
 
         if(needUpdate.get()){
-            NewsApiResponse response = newsApi.getLatestNewsData();
+            NewsApiResult response = newsApi.getLatestNewsData();
             saveNewsData(response);
         }
     }
 
-    public void saveNewsData(NewsApiResponse newsApiResponse) {
-        newsApiResponse.getItems().forEach(newsItem -> {
-            String newsTitle = newsItem.getTitle();
+    public void saveNewsData(NewsApiResult newsApiResult) {
+        newsApiResult.getItems().forEach(news -> {
+            String newsTitle = news.getTitle();
             int titleLength = newsTitle.length();
             String titleHead = newsTitle.substring(0, Math.min(titleLength, 20));
 
-            String description = newsItem.getDescription();
+            String description = news.getDescription();
             int descriptionLength = description.length();
             String descriptionHead = newsTitle.substring(0, Math.min(descriptionLength, 20));
 
@@ -96,11 +96,11 @@ public class NewsService {
 
             if(hasNoData && isKoreanNews){
                 newsRepository.save(NewsEntity.builder()
-                        .title(newsItem.getTitle())
-                        .link(newsItem.getLink())
-                        .description(newsItem.getDescription())
-                        .pubDate(parseDate(newsItem.getPubDate()))
-                        .originalLink(newsItem.getOriginalLink())
+                        .title(news.getTitle())
+                        .link(news.getLink())
+                        .description(news.getDescription())
+                        .pubDate(parseDate(news.getPubDate()))
+                        .originalLink(news.getOriginalLink())
                         .build());
             }
         });

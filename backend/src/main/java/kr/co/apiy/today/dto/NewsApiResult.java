@@ -1,16 +1,14 @@
 package kr.co.apiy.today.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @ToString
 @Setter
 @Getter
 @NoArgsConstructor
-public class NewsApiResponse {
+public class NewsApiResult {
 
     private String lastBuildDate;
 
@@ -20,6 +18,6 @@ public class NewsApiResponse {
 
     private int display;
 
-    private List<NewsItem> items;
+    private List<News> items;
 
 }

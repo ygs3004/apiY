@@ -1,10 +1,7 @@
 package kr.co.apiy.today.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @ToString
 @Setter
@@ -12,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewsItem {
+public class News {
 
     private String title;
 

@@ -1,4 +1,4 @@
-package kr.co.apiy.global.utils;
+package kr.co.apiy.global.converters;
 
 import jakarta.persistence.AttributeConverter;
 

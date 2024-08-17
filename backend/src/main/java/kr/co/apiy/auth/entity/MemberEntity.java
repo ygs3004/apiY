@@ -1,8 +1,9 @@
 package kr.co.apiy.auth.entity;
 
 import jakarta.persistence.*;
+import kr.co.apiy.auth.dto.MemberRole;
 import kr.co.apiy.global.entity.BaseEntity;
-import kr.co.apiy.global.utils.Converters;
+import kr.co.apiy.global.converters.Converters;
 import lombok.*;
 
 import java.util.HashSet;
