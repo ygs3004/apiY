@@ -1,5 +1,5 @@
 <script setup>
-import {getCurrentInstance, onMounted, ref} from "vue";
+import {getCurrentInstance, onBeforeMount, onMounted, ref} from "vue";
 import router from "@/router/index.js";
 
 const {proxy} = getCurrentInstance();
@@ -14,7 +14,7 @@ const goPage = (page) => {
   router.push(`/${page}`)
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   increment()
   $axios.post("/sample/healthcheck").then((res) => console.log(res));
 })

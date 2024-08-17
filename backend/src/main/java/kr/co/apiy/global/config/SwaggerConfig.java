@@ -42,7 +42,7 @@ public class SwaggerConfig {
     public GroupedOpenApi groupMember(){
         String[] pathToMatch = {"/member/*"};
         return GroupedOpenApi.builder()
-                .group("Member")
+                .group("회원 API")
                 .pathsToMatch(pathToMatch)
                 .build();
     }
@@ -54,6 +54,15 @@ public class SwaggerConfig {
                 .group("Sample")
                 .pathsToMatch(pathToMatch)
                 .addOpenApiCustomizer(authOperationCustomizer()) // 태그 한번에 추가하기 가능
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi groupToday(){
+        String[] pathToMatch = {"/news/*", "/movie/*"};
+        return GroupedOpenApi.builder()
+                .group("일간정보 API")
+                .pathsToMatch(pathToMatch)
                 .build();
     }
 

@@ -9,37 +9,35 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
 @Log4j2
-public class NewsScheduler {
+public class NewsApi {
 
-    private final NewsService newsService;
     private final ApiRequest apiRequest;
     private final JsonUtils jsonUtils;
     private final String NAVER_CLIENT_ID;
     private final String NAVER_CLIENT_SECRET;
 
     @Autowired
-    public NewsScheduler(
-            NewsService newsService,
+    public NewsApi(
             ApiRequest apiRequest,
             JsonUtils jsonUtils,
             @Value("${naver.client.id}") String NAVER_CLIENT_ID,
             @Value("${naver.client.secret}") String NAVER_CLIENT_SECRET
     ) {
-        this.newsService = newsService;
         this.apiRequest = apiRequest;
         this.jsonUtils = jsonUtils;
         this.NAVER_CLIENT_ID =  NAVER_CLIENT_ID;
         this.NAVER_CLIENT_SECRET = NAVER_CLIENT_SECRET;
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void updateNewsData() {
+    public NewsApiResponse getLatestNewsData() {
+        log.info("===============================================");
+        log.info("News Api getLatestNewsData");
+
         String baseUrl = "https://openapi.naver.com";
         String subUrl = "/v1/search/news.json";
         Map<String, String> header = new HashMap<>();
@@ -50,12 +48,11 @@ public class NewsScheduler {
 
         queryParam.put("query", searchString);
         queryParam.put("sort", "date");
-        queryParam.put("display", "30");
+        queryParam.put("display", "100");
 
         String response = apiRequest.get(baseUrl, subUrl, queryParam, header);
-        NewsApiResponse newsApiResponse = jsonUtils.fromJson(response, NewsApiResponse.class);
 
-        newsService.saveScheduleData(newsApiResponse);
+        return jsonUtils.fromJson(response, NewsApiResponse.class);
     }
 
 

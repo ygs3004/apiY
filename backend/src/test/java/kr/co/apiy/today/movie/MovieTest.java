@@ -10,10 +10,10 @@ import org.springframework.test.context.ActiveProfiles;
 public class MovieTest {
 
     @Autowired
-    MovieScheduler movieScheduler;
+    MovieApi movieScheduler;
 
     @Test
-    public void movieSchedulerTest() {
+    public void getMovieRankTest() {
         // movieScheduler.updateMovieData();
     }
 

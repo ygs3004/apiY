@@ -11,7 +11,7 @@ const router = createRouter({
     {
       path: '/today',
       name: 'today',
-      component: () => import('@/views/today/today.vue')
+      component: () => import('@/views/today/today-main.vue')
     },
     {
       path: '/board',
