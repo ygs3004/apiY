@@ -1,21 +1,28 @@
-<script setup>
-import {getCurrentInstance, onMounted} from "vue";
-const {proxy} = getCurrentInstance();
-const {$axios} = proxy;
+<script >
+export default{
+  name: "test-list",
+  data() {
+    return {
+      newsList: null
+    }
+  },
 
-const goPage = (link) => {
-  location.href=link;
+  methods: {
+    goPage(link){
+      location.href=link;
+    }
+  },
+
+  beforeCreate() {
+    this.newsList = this.$axios.get("/news/latest").then(response => response.data);
+  }
 }
-
-onMounted(() => {
-  const newsList = $axios.get("/news/latest").then(response => response.data);
-  console.log(newsList);
-})
 </script>
 
 <template>
   <v-row>
     <v-col v-for="news in newsList" :key="news.title" cols="12">
+      <h1>TEST</h1>
       <v-card color="secondary">
         <v-card-item class="cursor-pointer" @click="goPage(news.originallink || news.link)">
           <v-card-title>{{ news.title }}</v-card-title>
