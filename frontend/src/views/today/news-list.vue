@@ -1,5 +1,5 @@
 <script setup>
-import {getCurrentInstance, onMounted} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 const {proxy} = getCurrentInstance();
 const {$axios} = proxy;
 
@@ -7,8 +7,10 @@ const goPage = (link) => {
   location.href=link;
 }
 
+const newsList = ref();
+
 onMounted(() => {
-  const newsList = $axios.get("/news/latest").then(response => response.data);
+  newsList.value = $axios.get("/news/latest").then(response => response.data);
   console.log(newsList);
 })
 </script>
