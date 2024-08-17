@@ -86,7 +86,7 @@ public class NewsService {
 
             String description = news.getDescription();
             int descriptionLength = description.length();
-            String descriptionHead = newsTitle.substring(0, Math.min(descriptionLength, 20));
+            String descriptionHead = description.substring(0, Math.min(descriptionLength, 20));
 
             boolean isKoreanNews = this.isKoreanString(titleHead);
             isKoreanNews = isKoreanNews && this.isKoreanString(descriptionHead);
