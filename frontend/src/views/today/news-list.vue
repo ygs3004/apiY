@@ -10,8 +10,9 @@ const goPage = (link) => {
 const newsList = ref();
 
 onMounted(() => {
-  newsList.value = $axios.get("/news/latest").then(response => response.data);
-  console.log(newsList);
+   $axios.get("/news/latest").then(response => {
+     newsList.value = response.data
+  });
 })
 </script>
 
