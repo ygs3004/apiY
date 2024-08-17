@@ -1,5 +1,6 @@
 package kr.co.apiy.today.news;
 
+import kr.co.apiy.global.Constants;
 import kr.co.apiy.today.dto.NewsApiResponse;
 import kr.co.apiy.today.dto.NewsItem;
 import kr.co.apiy.today.entity.NewsEntity;
@@ -80,12 +81,17 @@ public class NewsService {
     public void saveNewsData(NewsApiResponse newsApiResponse) {
         newsApiResponse.getItems().forEach(newsItem -> {
             String newsTitle = newsItem.getTitle();
-            boolean isKoreanNews = Arrays.stream(newsTitle.split("")).anyMatch(
-                    titleWord -> Pattern.compile("[ㄱ-ㅎㅏ-ㅣ가-힣]").matcher(titleWord).find()
-            );
-
             int titleLength = newsTitle.length();
-            Optional<NewsEntity> newsEntity = newsRepository.findByTitleLike(newsTitle.substring(0, Math.min(titleLength, 20)) + "%");
+            String titleHead = newsTitle.substring(0, Math.min(titleLength, 20));
+
+            String description = newsItem.getDescription();
+            int descriptionLength = description.length();
+            String descriptionHead = newsTitle.substring(0, Math.min(descriptionLength, 20));
+
+            boolean isKoreanNews = this.isKoreanString(titleHead);
+            isKoreanNews = isKoreanNews && this.isKoreanString(descriptionHead);
+
+            Optional<NewsEntity> newsEntity = newsRepository.findByTitleLike(titleHead + "%");
             boolean hasNoData = newsEntity.isEmpty();
 
             if(hasNoData && isKoreanNews){
@@ -100,10 +106,16 @@ public class NewsService {
         });
     }
 
+    public boolean isKoreanString(String str){
+        return Arrays.stream(str.split("")).anyMatch(
+                descriptionWord -> Pattern.compile("[ㄱ-ㅎㅏ-ㅣ가-힣]").matcher(descriptionWord).find()
+        );
+    }
+
     public LocalDateTime parseDate(String date) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(date, inputFormatter);
-        ZoneId desiredZoneId = ZoneId.of("Asia/Seoul");
+        ZoneId desiredZoneId = ZoneId.of(Constants.TIME_ZONE_OF_SEOUL);
         ZonedDateTime convertedZonedDateTime = zonedDateTime.withZoneSameInstant(desiredZoneId);
         return convertedZonedDateTime.toLocalDateTime();
     }
