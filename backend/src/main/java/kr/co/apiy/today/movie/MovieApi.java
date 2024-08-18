@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -41,23 +42,23 @@ public class MovieApi {
         this.jsonUtils = jsonUtils;
     }
 
-    public List<MovieRankApiResult> getMovieRankData() {
+    public List<MovieRankApiResult> getMovieRankData(LocalDate targetDate) {
         log.info("===============================================");
         log.info("Movie Api getMovieRankData");
-        String baseUrl = "http://www.kobis.or.kr";
-        String subUrl = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json";
+        final String BASE_URL = "http://www.kobis.or.kr";
+        final String SUB_URL = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json";
         Map<String, String> queryParam = new HashMap<>();
 
-        LocalDateTime today = LocalDateTime.now(ZoneId.of(Constants.TIME_ZONE_OF_SEOUL));
-        LocalDateTime yesterday = today.minusDays(1);
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String targetDt = yesterday.format(formatter);
+        String targetDt = targetDate.format(formatter);
 
         queryParam.put("key", MOVIE_RANK_KEY);
         queryParam.put("targetDt", targetDt);
 
-        String response = apiRequest.get(baseUrl, subUrl, queryParam);
+        String response = apiRequest.get(BASE_URL, SUB_URL, queryParam);
+        log.info("===============================================");
+        log.info("response: " + response);
+
         JSONObject jsonObject = new JSONObject(response);
         JSONArray dailyBoxOfficeListJson = jsonObject.getJSONObject("boxOfficeResult").getJSONArray("dailyBoxOfficeList");
         List<MovieRankApiResult> movieRankApiResults = new ArrayList<>();

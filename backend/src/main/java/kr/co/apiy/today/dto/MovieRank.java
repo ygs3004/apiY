@@ -2,6 +2,7 @@ package kr.co.apiy.today.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
@@ -11,17 +12,17 @@ import java.time.LocalDateTime;
 @ToString
 public class MovieRank {
 
-    private String movieName;
-
-    private LocalDateTime rankDate;
+    private LocalDate rankDate;
 
     private int rank;
+
+    private String movieName;
 
     private int rankChange;
 
     RankInto rankOldAndNew;
 
-    LocalDateTime openDate;
+    LocalDate openDate;
 
     private long audienceTotalCnt;
 

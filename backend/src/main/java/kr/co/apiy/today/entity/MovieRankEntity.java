@@ -9,10 +9,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "MOVIE_RANK")
+@Table(name = "MOVIE_RANK", uniqueConstraints = {
+        @UniqueConstraint(
+                name = "RANK_DATE_UNIQUE",
+                columnNames = {"rank", "rankDate"}
+        )
+})
 @Builder
 @Getter
 @NoArgsConstructor
@@ -27,7 +33,7 @@ public class MovieRankEntity  extends BaseEntity {
     private String movieName;
 
     @Column(nullable = false)
-    private LocalDateTime rankDate;
+    private LocalDate rankDate;
 
     @Column(nullable = false)
     private int rank;
@@ -37,7 +43,7 @@ public class MovieRankEntity  extends BaseEntity {
     @Convert(converter = Converters.ForRankInto.class)
     RankInto rankOldAndNew;
 
-    LocalDateTime openDate;
+    LocalDate openDate;
 
     private long audienceTotalCnt; // 누적관객수를 출력합니다.
 
