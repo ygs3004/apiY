@@ -1,8 +1,8 @@
 package kr.co.apiy.today.news;
 
 import kr.co.apiy.global.Constants;
-import kr.co.apiy.today.dto.NewsApiResult;
 import kr.co.apiy.today.dto.News;
+import kr.co.apiy.today.dto.NewsApiResult;
 import kr.co.apiy.today.entity.NewsEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -22,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 @Service
@@ -34,9 +32,6 @@ public class NewsService {
     private final NewsApi newsApi;
 
     public List<News> getLatestNews() {
-
-        this.checkLatest();
-
         Pageable pageable = PageRequest.of(0, 10, Sort.by("pubDate").descending());
         Page<NewsEntity> result = newsRepository.findAll(pageable);
         return result.getContent()
@@ -53,29 +48,6 @@ public class NewsService {
                         .pubDate(this.LocalDateToString(newsEntity.getPubDate()))
                         .build())
                 .toList();
-    }
-
-    public void checkLatest() {
-        Pageable maxPageable = PageRequest.of(0, 1, Sort.by("pubDate").descending());
-        Page<NewsEntity> maxResult = newsRepository.findAll(maxPageable);
-        AtomicBoolean needUpdate = new AtomicBoolean(false);
-        maxResult.getContent().stream().findFirst().ifPresentOrElse(
-                newsEntity -> {
-                    LocalDateTime lastModifyDate = newsEntity.getModDate();
-                    LocalDateTime now = LocalDateTime.now();
-                    long hourDif = Duration.between(lastModifyDate, now).toHours();
-                    log.info("최신 lastModifyDate 와 현재 시간차이: {}", hourDif);
-                    if(hourDif > 6) needUpdate.set(true);
-                },
-                () -> {
-                    needUpdate.set(true);
-                }
-        );
-
-        if(needUpdate.get()){
-            NewsApiResult response = newsApi.getLatestNewsData();
-            saveNewsData(response);
-        }
     }
 
     public void saveNewsData(NewsApiResult newsApiResult) {

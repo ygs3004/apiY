@@ -37,8 +37,8 @@ public class NewsApi {
         log.info("===============================================");
         log.info("News Api getLatestNewsData");
 
-        String baseUrl = "https://openapi.naver.com";
-        String subUrl = "/v1/search/news.json";
+        final String BASE_URL = "https://openapi.naver.com";
+        final String SUB_URL = "/v1/search/news.json";
         Map<String, String> header = new HashMap<>();
         header.put("X-Naver-Client-Id", NAVER_CLIENT_ID);
         header.put("X-Naver-Client-Secret", NAVER_CLIENT_SECRET);
@@ -49,7 +49,7 @@ public class NewsApi {
         queryParam.put("sort", "date");
         queryParam.put("display", "100");
 
-        String response = apiRequest.get(baseUrl, subUrl, queryParam, header);
+        String response = apiRequest.get(BASE_URL, SUB_URL, queryParam, header);
 
         return jsonUtils.fromJson(response, NewsApiResult.class);
     }

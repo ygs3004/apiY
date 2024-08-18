@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Log4j2
-@Tag(name = "뉴스", description = "최신 뉴스정보 확인")
+@Tag(name = "뉴스 API", description = "최신 뉴스정보 확인")
 @RequestMapping("/news/*")
 public class NewsController {
 
