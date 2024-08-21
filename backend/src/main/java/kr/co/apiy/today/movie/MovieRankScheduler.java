@@ -1,11 +1,7 @@
 package kr.co.apiy.today.movie;
 
-import kr.co.apiy.global.Constants;
-import kr.co.apiy.today.dto.MovieRank;
+import kr.co.apiy.global.utils.Constants;
 import kr.co.apiy.today.dto.MovieRankApiResult;
-import kr.co.apiy.today.dto.NewsApiResult;
-import kr.co.apiy.today.news.NewsApi;
-import kr.co.apiy.today.news.NewsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Scheduled;

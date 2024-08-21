@@ -23,7 +23,6 @@ public class JsonUtils {
         return result;
     }
 
-
     public <T> T fromJson(JSONObject json, Class<T> clazz) {
         T result = null;
         try {

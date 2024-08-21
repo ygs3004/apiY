@@ -1,6 +1,7 @@
 package kr.co.apiy.today.news;
 
-import kr.co.apiy.global.Constants;
+import kr.co.apiy.global.utils.Constants;
+import kr.co.apiy.global.utils.StringUtils;
 import kr.co.apiy.today.dto.News;
 import kr.co.apiy.today.dto.NewsApiResult;
 import kr.co.apiy.today.entity.NewsEntity;
@@ -47,7 +48,7 @@ public class NewsService {
                         .description(
                                 Jsoup.parse(newsEntity.getDescription()).text()
                         )
-                        .pubDate(this.LocalDateToString(newsEntity.getPubDate()))
+                        .pubDate(StringUtils.LocalDateTimeToGlobalFormat(newsEntity.getPubDate()))
                         .build())
                 .toList();
     }
@@ -94,8 +95,4 @@ public class NewsService {
         return convertedZonedDateTime.toLocalDateTime();
     }
 
-    public String LocalDateToString(LocalDateTime localDateTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return localDateTime.format(formatter);
-    }
 }

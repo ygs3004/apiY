@@ -7,9 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.co.apiy.today.dto.MovieRank;
-import kr.co.apiy.today.dto.News;
-import kr.co.apiy.today.news.NewsService;
+import kr.co.apiy.today.dto.MovieRankResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +29,11 @@ public class MovieRankController {
     @Operation(summary = "일간 박스오피스 순위 정보", description = "요청일 기준 이전 일자의 일간 박스오피스 순위정보를 제공합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = {
-                    @Content(array = @ArraySchema(schema = @Schema(implementation = MovieRank.class)))
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = MovieRankResponse.class)))
             }),
     })
     @GetMapping("/rank/yesterday")
-    public ResponseEntity<List<MovieRank>> getNews() {
+    public ResponseEntity<List<MovieRankResponse>> getNews() {
         return ResponseEntity.ok(movieRankService.getYesterdayMovieRank());
     }
 

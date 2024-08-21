@@ -1,6 +1,5 @@
 package kr.co.apiy.today.movie;
 
-import kr.co.apiy.global.Constants;
 import kr.co.apiy.global.utils.ApiRequest;
 import kr.co.apiy.global.utils.JsonUtils;
 import kr.co.apiy.today.dto.MovieRankApiResult;
@@ -12,8 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;

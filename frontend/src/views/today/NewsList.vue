@@ -8,12 +8,23 @@ const goPage = (link) => {
   location.href = link;
 }
 
-const newsList = ref();
+const newsList = ref([{
+  title:"",
+  pubDate: "",
+  description: "",
+  link: "",
+  originallink: "",
+}]);
+
+const searchNews = () => {
+  $axios.get("/news/latest")
+      .then(response => {
+        newsList.value = response.data
+      });
+}
 
 onMounted(() => {
-  $axios.get("/news/latest").then(response => {
-    newsList.value = response.data
-  });
+  searchNews();
 })
 </script>
 

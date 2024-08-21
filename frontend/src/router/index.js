@@ -11,12 +11,12 @@ const router = createRouter({
     {
       path: '/today',
       name: 'today',
-      component: () => import('@/views/today/today-main.vue')
+      component: () => import('@/views/today/TodayMain.vue')
     },
     {
       path: '/board',
       name: 'board',
-      component: () => import('@/views/board/board-list.vue')
+      component: () => import('@/views/board/BoardList.vue')
     },
     // {
     //   path: '/about',

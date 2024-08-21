@@ -2,17 +2,14 @@ package kr.co.apiy.today.dto;
 
 import lombok.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Builder
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class MovieRank {
+public class MovieRankResponse {
 
-    private LocalDate rankDate;
+    private String rankDate;
 
     private int rank;
 
@@ -20,9 +17,9 @@ public class MovieRank {
 
     private int rankChange;
 
-    RankInto rankOldAndNew;
+    private String rankOldAndNew;
 
-    LocalDate openDate;
+    private String openDate;
 
     private long audienceTotalCnt;
 
