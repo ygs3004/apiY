@@ -39,9 +39,10 @@ onMounted(() => {
       <div>
         {{item.rank}}. {{item.movieName}} {{item.rankOldAndNew}}
         <span v-if="item.rankOldAndNew === 'NEW'" class="text-red text-caption font-weight-bold"> New</span>
-        <span class="text-caption">(개봉일: {{item.openDate}})</span>
         <v-icon v-if="item.rankChange > 0" icon="mdi-arrow-up-bold" size="20"/>
         <v-icon v-if="item.rankChange < 0" icon="mdi-arrow-down-bold" size="20"/>
+        <div class="text-caption">(개봉일: {{item.openDate}})</div>
+
       </div>
     </template>
     <template v-slot:subtitle="{item}">
