@@ -21,6 +21,6 @@ public class NewsApiResult {
 
     private int display;
 
-    private List<News> items;
+    private List<NewsResponse> items;
 
 }

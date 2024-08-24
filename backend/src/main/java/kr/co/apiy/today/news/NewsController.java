@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.co.apiy.today.dto.News;
+import kr.co.apiy.today.dto.NewsResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +29,11 @@ public class NewsController {
     @Operation(summary = "뉴스 정보", description = "최신 뉴스 정보 검색")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = {
-                    @Content(array = @ArraySchema(schema = @Schema(implementation = News.class)))
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = NewsResponse.class)))
             }),
     })
     @GetMapping("/latest")
-    public ResponseEntity<List<News>> getLatestNews() {
+    public ResponseEntity<List<NewsResponse>> getLatestNews() {
         return ResponseEntity.ok(newsService.getLatestNews());
     }
 

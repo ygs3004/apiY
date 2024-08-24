@@ -2,7 +2,7 @@ package kr.co.apiy.today.news;
 
 import kr.co.apiy.global.utils.Constants;
 import kr.co.apiy.global.utils.StringUtils;
-import kr.co.apiy.today.dto.News;
+import kr.co.apiy.today.dto.NewsResponse;
 import kr.co.apiy.today.dto.NewsApiResult;
 import kr.co.apiy.today.entity.NewsEntity;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +33,12 @@ public class NewsService {
 
     private final NewsRepository newsRepository;
 
-    public List<News> getLatestNews() {
+    public List<NewsResponse> getLatestNews() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("pubDate").descending());
         Page<NewsEntity> result = newsRepository.findAll(pageable);
         return result.getContent()
                 .stream()
-                .map(newsEntity -> News.builder()
+                .map(newsEntity -> NewsResponse.builder()
                         .title(
                                 Jsoup.parse(newsEntity.getTitle()).text()
                         )
@@ -53,12 +53,12 @@ public class NewsService {
     }
 
     public void saveNewsData(NewsApiResult newsApiResult) {
-        newsApiResult.getItems().forEach(news -> {
-            String newsTitle = news.getTitle();
+        newsApiResult.getItems().forEach(newsResponse -> {
+            String newsTitle = newsResponse.getTitle();
             int titleLength = newsTitle.length();
             String titleHead = newsTitle.substring(0, Math.min(titleLength, 20));
 
-            String description = news.getDescription();
+            String description = newsResponse.getDescription();
             int descriptionLength = description.length();
             String descriptionHead = description.substring(0, Math.min(descriptionLength, 20));
 
@@ -70,11 +70,11 @@ public class NewsService {
 
             if(hasNoData && isKoreanNews){
                 newsRepository.save(NewsEntity.builder()
-                        .title(news.getTitle())
-                        .link(news.getLink())
-                        .description(news.getDescription())
-                        .pubDate(this.parseDate(news.getPubDate()))
-                        .originalLink(news.getOriginalLink())
+                        .title(newsResponse.getTitle())
+                        .link(newsResponse.getLink())
+                        .description(newsResponse.getDescription())
+                        .pubDate(this.parseDate(newsResponse.getPubDate()))
+                        .originalLink(newsResponse.getOriginalLink())
                         .build());
             }
         });

@@ -29,23 +29,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-card class="ma-4 bg-brown-lighten-2" v-for="news in newsList" :key="news.title" color="secondary" max-width="300px"
-          max-height="400px">
-    <v-card-item style="height:100%; padding-top: 15px;">
-      <v-card-title>{{ news.title }}</v-card-title>
-      <v-card-subtitle>{{ news.pubDate }}</v-card-subtitle>
-      <v-card-text>
-        {{ news.description }}
-      </v-card-text>
-      <v-card-actions class="float-right">
-        <v-btn variant="elevated" text="보러가기" @click="goPage(news.originallink || news.link)"/>
-      </v-card-actions>
-    </v-card-item>
-  </v-card>
+  <VCard class="ma-4 bg-brown-lighten-2" v-for="newsResponse in newsList" :key="newsResponse.title" color="pastel"
+         max-width="300px"
+         max-height="400px">
+    <VCardItem style="height:100%; padding-top: 15px;">
+      <VCardTitle>{{ newsResponse.title }}</VCardTitle>
+      <VCardSubtitle>{{ newsResponse.pubDate }}</VCardSubtitle>
+      <VCardText>
+        {{ newsResponse.description }}
+      </VCardText>
+      <VCardActions class="float-right">
+        <VBtn variant="elevated" text="보러가기" @click="goPage(newsResponse.originallink || newsResponse.link)"/>
+      </VCardActions>
+    </VCardItem>
+  </VCard>
 </template>
-
-<style scoped>
-.cursor-pointer {
-  cursor: pointer;
-}
-</style>

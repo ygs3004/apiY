@@ -55,7 +55,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi groupToday(){
-        String[] pathToMatch = {"/news/**", "/movie/**"};
+        String[] pathToMatch = {"/news/**", "/movie/**", "/weather/**"};
         return GroupedOpenApi.builder()
                 .group("일간정보 API")
                 .pathsToMatch(pathToMatch)

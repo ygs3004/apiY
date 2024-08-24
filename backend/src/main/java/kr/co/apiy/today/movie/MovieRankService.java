@@ -29,7 +29,8 @@ public class MovieRankService {
     private final MovieRankRepository movieRankRepository;
 
     public List<MovieRankResponse> getYesterdayMovieRank() {
-        PageRequest pageable = PageRequest.of(0, 10, Sort.by("rankDate").descending());
+        PageRequest pageable = PageRequest.of(0, 10
+                , Sort.by("rankDate").descending().and(Sort.by("rank").ascending()));
         Page<MovieRankEntity> movieRanksPage = movieRankRepository.findAll(pageable);
         List<MovieRankEntity> movieRankEntities = movieRanksPage.getContent();
         List<MovieRankResponse> movieRankResponseResult = movieRankEntities.stream()

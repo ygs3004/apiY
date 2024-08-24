@@ -5,6 +5,10 @@ import kr.co.apiy.today.dto.WeatherResponse;
 import kr.co.apiy.today.entity.WeatherEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,23 @@ import java.util.Map;
 public class WeatherService {
 
     private final WeatherRepository weatherRepository;
+
+    public List<WeatherResponse> searchWeatherForecast() {
+        Pageable pageable = PageRequest.of(0, 8, Sort.by("forecastDatetime").descending());
+        Page<WeatherEntity> result = weatherRepository.findAll(pageable);
+        return result.getContent().stream()
+                .map(weatherEntity -> WeatherResponse.builder()
+                        .forecastDatetime(weatherEntity.getForecastDatetime())
+                        .precipitationProbability(weatherEntity.getPrecipitationProbability())
+                        .precipitationType(weatherEntity.getPrecipitationType())
+                        .humidity(weatherEntity.getHumidity())
+                        .skyCondition(weatherEntity.getSkyCondition())
+                        .temperature(weatherEntity.getTemperature())
+                        .windDirection(weatherEntity.getWindDirection())
+                        .windSpeed(weatherEntity.getWindSpeed())
+                        .build())
+                .toList();
+    }
 
     public void updateWeatherForecastData(List<WeatherApiResult> WeatherApiResult) {
         Map<LocalDateTime, WeatherEntity> forecastEntitiesPerTime = parseWeatherApiResult(WeatherApiResult);
@@ -109,10 +130,6 @@ public class WeatherService {
             case 4 -> "흐림";
             default -> "";
         };
-    }
-
-    public List<WeatherResponse> searchWeatherForecast() {
-        return null;
     }
 
 }

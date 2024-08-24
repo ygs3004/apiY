@@ -30,7 +30,6 @@ onBeforeMount(() => {
 
 <template>
   <v-layout class="rounded rounded-md">
-
     <v-navigation-drawer
         expand-on-hover
         rail
@@ -43,7 +42,7 @@ onBeforeMount(() => {
         <v-list-item prepend-icon="mdi-pencil" title="자유게시판" @click="goPage('board')"></v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar color="primary" title="매일 매일 행복하게 꿀잠자는 하루되기">
+    <v-app-bar color="primary" title="매일 매일 행복하게 꿀잠자는 하루되기" height="50">
       <template v-slot:prepend>
         <VDivider class="my-16" length="90%"/>
         <v-app-bar-nav-icon @click="handleMenu"/>

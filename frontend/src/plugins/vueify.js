@@ -21,7 +21,8 @@ export default createVuetify({
                     error: '#FF5252',
                     info: '#FFD95A',
                     success: '#4CAF50',
-                    warning: '#FFC107'
+                    warning: '#FFC107',
+                    pastel: '#eefaf8'
                 }
             }
         }

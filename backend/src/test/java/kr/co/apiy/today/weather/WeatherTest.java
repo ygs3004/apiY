@@ -25,7 +25,7 @@ public class WeatherTest {
     public void searchWeatherForecastTest() {
         List<WeatherApiResult> response = weatherApi.getWeatherForecast();
         weatherService.updateWeatherForecastData(response);
-        weatherService.searchWeatherForecast();
+        log.info(weatherService.searchWeatherForecast());
     }
 
 }
