@@ -33,7 +33,7 @@ public class MovieRankController {
             }),
     })
     @GetMapping("/rank/yesterday")
-    public ResponseEntity<List<MovieRankResponse>> getNews() {
+    public ResponseEntity<List<MovieRankResponse>> getYesterdayMovieRank() {
         return ResponseEntity.ok(movieRankService.getYesterdayMovieRank());
     }
 

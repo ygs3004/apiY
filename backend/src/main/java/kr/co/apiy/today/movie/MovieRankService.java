@@ -1,9 +1,8 @@
 package kr.co.apiy.today.movie;
 
 import kr.co.apiy.global.exception.InternalServerException;
-import kr.co.apiy.global.utils.StringUtils;
-import kr.co.apiy.today.dto.MovieRankResponse;
 import kr.co.apiy.today.dto.MovieRankApiResult;
+import kr.co.apiy.today.dto.MovieRankResponse;
 import kr.co.apiy.today.dto.RankInto;
 import kr.co.apiy.today.entity.MovieRankEntity;
 import lombok.RequiredArgsConstructor;
@@ -35,16 +34,12 @@ public class MovieRankService {
         List<MovieRankEntity> movieRankEntities = movieRanksPage.getContent();
         List<MovieRankResponse> movieRankResponseResult = movieRankEntities.stream()
                 .map(movieRankEntity -> MovieRankResponse.builder()
-                        .rankDate(
-                                StringUtils.LocalDateToGlobalFormat(movieRankEntity.getRankDate())
-                        )
+                        .rankDate(movieRankEntity.getRankDate())
                         .rank(movieRankEntity.getRank())
                         .movieName(movieRankEntity.getMovieName())
                         .rankChange(movieRankEntity.getRankChange())
                         .rankOldAndNew(movieRankEntity.getRankOldAndNew().name())
-                        .openDate(
-                                StringUtils.LocalDateToGlobalFormat(movieRankEntity.getOpenDate())
-                        )
+                        .openDate(movieRankEntity.getOpenDate())
                         .audienceTotalCnt(movieRankEntity.getAudienceTotalCnt())
                         .audienceDayCnt(movieRankEntity.getAudienceDayCnt())
                         .audienceChange(movieRankEntity.getAudienceChange())
@@ -62,9 +57,7 @@ public class MovieRankService {
         // 데이터가 없을경우 List 길이가 0으로 return, isPresent = true
         AtomicBoolean isNotUpdateYet = new AtomicBoolean(false);
         existRankEntityList.ifPresentOrElse(
-                rankEntities -> {
-                    isNotUpdateYet.set(rankEntities.isEmpty());
-                },
+                rankEntities -> isNotUpdateYet.set(rankEntities.isEmpty()),
                 () -> {
                     throw new InternalServerException("동일한 Movie Rank 정보(날짜) Update");
                 }

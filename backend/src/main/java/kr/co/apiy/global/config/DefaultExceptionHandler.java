@@ -11,9 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 @ControllerAdvice
 @RequiredArgsConstructor
 @Log4j2
@@ -43,14 +40,10 @@ public class DefaultExceptionHandler {
     }
 
     private void saveErrorLog(int code, Exception e){
-        StringWriter errors = new StringWriter();
-        e.printStackTrace(new PrintWriter(errors));
-
         logRepository.save(ExceptionLogEntity
                 .builder()
                 .errorCode(code)
                 .errorMessage(e.getMessage())
-                .stackTrace(errors.toString())
                 .build());
     }
 

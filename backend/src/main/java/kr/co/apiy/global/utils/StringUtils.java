@@ -6,6 +6,11 @@ import java.time.format.DateTimeFormatter;
 
 public class StringUtils {
 
+    public static String LocalDateToFormat(LocalDateTime localDateTime, String format){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        return localDateTime.format(formatter);
+    }
+
     public static String LocalDateToGlobalFormat(LocalDate localDate){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.GLOBAL_DATE_FORMAT);
         return localDate.format(formatter);

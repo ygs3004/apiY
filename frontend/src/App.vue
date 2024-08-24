@@ -1,5 +1,5 @@
 <script setup>
-import {getCurrentInstance, onBeforeMount, onMounted, ref} from "vue";
+import {getCurrentInstance, onBeforeMount, ref} from "vue";
 import router from "@/router/index.js";
 
 const {proxy} = getCurrentInstance();
@@ -35,6 +35,7 @@ onBeforeMount(() => {
         expand-on-hover
         rail
         v-model="onMenu"
+        color="secondary"
     >
 
       <v-list density="default" >

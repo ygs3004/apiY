@@ -1,6 +1,10 @@
 package kr.co.apiy.today.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import kr.co.apiy.global.utils.Constants;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Builder
 @AllArgsConstructor
@@ -9,7 +13,8 @@ import lombok.*;
 @ToString
 public class MovieRankResponse {
 
-    private String rankDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.GLOBAL_DATE_FORMAT)
+    private LocalDate rankDate;
 
     private int rank;
 
@@ -19,7 +24,8 @@ public class MovieRankResponse {
 
     private String rankOldAndNew;
 
-    private String openDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.GLOBAL_DATE_FORMAT)
+    private LocalDate openDate;
 
     private long audienceTotalCnt;
 

@@ -1,5 +1,6 @@
 package kr.co.apiy.today.movie;
 
+import kr.co.apiy.global.exception.InternalServerException;
 import kr.co.apiy.global.utils.ApiRequest;
 import kr.co.apiy.global.utils.JsonUtils;
 import kr.co.apiy.today.dto.MovieRankApiResult;
@@ -12,15 +13,13 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 @Component
 @Log4j2
-public class MovieApi {
+public class MovieRankApi {
 
     private final ApiRequest apiRequest;
     private final JsonUtils jsonUtils;
@@ -28,7 +27,7 @@ public class MovieApi {
     private final String MOVIE_RANK_KEY;
 
     @Autowired
-    public MovieApi(
+    public MovieRankApi(
             ApiRequest apiRequest,
             JsonUtils jsonUtils,
             @Value("${movie.rank.key}") String MOVIE_RANK_KEY
@@ -41,7 +40,7 @@ public class MovieApi {
 
     public List<MovieRankApiResult> getMovieRankData(LocalDate targetDate) {
         log.info("===============================================");
-        log.info("Movie Api getMovieRankData");
+        log.info("MovieRank Api getMovieRankData");
         final String BASE_URL = "http://www.kobis.or.kr";
         final String SUB_URL = "/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json";
         Map<String, String> queryParam = new HashMap<>();
@@ -51,21 +50,19 @@ public class MovieApi {
 
         queryParam.put("key", MOVIE_RANK_KEY);
         queryParam.put("targetDt", targetDt);
+        JSONArray dailyBoxOfficeListJson;
+        try {
+            String response = apiRequest.get(BASE_URL, SUB_URL, queryParam);
+            log.info("===============================================");
+            log.info("response: " + response);
 
-        String response = apiRequest.get(BASE_URL, SUB_URL, queryParam);
-        log.info("===============================================");
-        log.info("response: " + response);
+            JSONObject jsonObject = new JSONObject(response);
+            dailyBoxOfficeListJson = jsonObject.getJSONObject("boxOfficeResult").getJSONArray("dailyBoxOfficeList");
+        } catch (Exception e) {
+            throw new InternalServerException("영화 순위 Api 요청에 실패하였습니다.");
+        }
 
-        JSONObject jsonObject = new JSONObject(response);
-        JSONArray dailyBoxOfficeListJson = jsonObject.getJSONObject("boxOfficeResult").getJSONArray("dailyBoxOfficeList");
-        List<MovieRankApiResult> movieRankApiResults = new ArrayList<>();
-        IntStream.range(0, dailyBoxOfficeListJson.length()).forEach(index -> {
-            JSONObject boxOfficeMovieJsonObj = dailyBoxOfficeListJson.getJSONObject(index);
-            MovieRankApiResult movieRankApiResult = jsonUtils.fromJson(boxOfficeMovieJsonObj, MovieRankApiResult.class);
-            movieRankApiResults.add(movieRankApiResult);
-        });
-
-        return movieRankApiResults;
+        return jsonUtils.fromJsonArray(dailyBoxOfficeListJson, MovieRankApiResult.class);
     }
 
 }

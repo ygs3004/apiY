@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 public class NewsService {
 
     private final NewsRepository newsRepository;
-    private final NewsApi newsApi;
 
     public List<News> getLatestNews() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("pubDate").descending());
@@ -74,7 +73,7 @@ public class NewsService {
                         .title(news.getTitle())
                         .link(news.getLink())
                         .description(news.getDescription())
-                        .pubDate(parseDate(news.getPubDate()))
+                        .pubDate(this.parseDate(news.getPubDate()))
                         .originalLink(news.getOriginalLink())
                         .build());
             }

@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovieRankScheduler {
 
-    private final MovieApi movieApi;
+    private final MovieRankApi movieRankApi;
     private final MovieRankService movieRankService;
 
     // 초 분 시간 일 월 요일
@@ -31,7 +31,7 @@ public class MovieRankScheduler {
         LocalDate today = LocalDate.from(LocalDateTime.now(ZoneId.of(Constants.TIME_ZONE_OF_SEOUL)));
         LocalDate targetDate = today.minusDays(1);
 
-        List<MovieRankApiResult> movieRanks = movieApi.getMovieRankData(targetDate);
+        List<MovieRankApiResult> movieRanks = movieRankApi.getMovieRankData(targetDate);
         movieRankService.saveMovieRankData(movieRanks, targetDate);
     }
 

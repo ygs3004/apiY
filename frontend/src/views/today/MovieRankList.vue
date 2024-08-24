@@ -4,7 +4,6 @@ import {getCurrentInstance, onMounted, ref} from "vue";
 const {proxy} = getCurrentInstance();
 const {$axios} = proxy;
 
-
 const movieRankList = ref([{
   audienceChange: "" ,
   audienceChangeRatio: "",
@@ -37,7 +36,7 @@ onMounted(() => {
   <v-list lines="two" :items="movieRankList" item-props>
     <template v-slot:title="{item}">
       <div>
-        {{item.rank}}. {{item.movieName}} {{item.rankOldAndNew}}
+        {{item.rank}}. {{item.movieName}}
         <span v-if="item.rankOldAndNew === 'NEW'" class="text-red text-caption font-weight-bold"> New</span>
         <v-icon v-if="item.rankChange > 0" icon="mdi-arrow-up-bold" size="20"/>
         <v-icon v-if="item.rankChange < 0" icon="mdi-arrow-down-bold" size="20"/>
@@ -47,7 +46,7 @@ onMounted(() => {
     </template>
     <template v-slot:subtitle="{item}">
       <div class="d-flex " style="gap:0.5rem; margin: 5px 0;">
-        <span>전일관객수: {{item.audienceDayCnt}}</span>
+        <span>일일관객수: {{item.audienceDayCnt}}</span>
         <span>누적관객수: {{item.audienceTotalCnt}}</span>
       </div>
       <div class="d-flex" style="gap:0.5rem">

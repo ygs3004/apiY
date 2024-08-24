@@ -1,5 +1,6 @@
 package kr.co.apiy.today.news;
 
+import kr.co.apiy.today.dto.NewsApiResult;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,9 @@ public class NewsTest {
     @Test
     @Commit
     public void getLatestNewsTest() {
-        newsService.getLatestNews().forEach(System.out::println);
+        NewsApiResult response = newsApi.getLatestNewsData();
+        newsService.saveNewsData(response);
+        log.info(newsService.getLatestNews());
     }
 
 }

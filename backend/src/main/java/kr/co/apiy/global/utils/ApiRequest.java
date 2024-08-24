@@ -1,20 +1,19 @@
 package kr.co.apiy.global.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.apiy.global.exception.InternalServerException;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import org.aspectj.apache.bcel.classfile.annotation.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -23,10 +22,8 @@ import java.util.StringJoiner;
 public class ApiRequest {
 
     private final WebClient webClient;
-    private final ObjectMapper objectMapper;
 
-    @Autowired
-    public ApiRequest(ObjectMapper objectMapper){
+    public ApiRequest(){
         this.webClient = WebClient
                 .builder()
                 .defaultHeaders( httpHeaders -> {
@@ -34,7 +31,6 @@ public class ApiRequest {
                     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
                 })
                 .build();
-        this.objectMapper = objectMapper;
     }
 
     @SneakyThrows
@@ -43,20 +39,25 @@ public class ApiRequest {
     }
 
     @SneakyThrows
-    public String get(String baseUri, String subUri, Map<String, String> queryParamsMap, Map<String, String> addHeaders){
+    public String get(String baseUri, String subUri, Map<String, String> queryParamsMap, Map<String, String> addHeaders) {
         String queryParamsStr = convertQueryParamsMapToString(queryParamsMap);
+        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory(baseUri);
+        // 공공 API 키 인코딩시 '+' 를 인코딩 하지 않음, uri builder Encoding NONE 설정 후 별도의 메서드에서 인코딩
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
+
         return webClient
                 .mutate()
                 .baseUrl(baseUri)
+                .uriBuilderFactory(uriBuilderFactory)
                 .defaultHeaders(httpHeaders -> {
-                    if(addHeaders != null) addHeaders.forEach(httpHeaders::set);
+                    if (addHeaders != null) addHeaders.forEach(httpHeaders::set);
                 }).build()
                 .get()
-                .uri(uriBuilder -> uriBuilder
-                        .path(subUri)
-                        .query(queryParamsStr)
-                        .build()
-                )
+                .uri(uriBuilder -> {
+                    URI uri = uriBuilder.path(subUri).query(queryParamsStr).build();
+                    log.info("Request Get URI: {}", uri);
+                    return uri;
+                })
                 .retrieve()
                 .bodyToMono(String.class)
                 .doOnError(log::warn)
@@ -66,17 +67,14 @@ public class ApiRequest {
     public static String convertQueryParamsMapToString(Map<String, String> map) {
         StringJoiner joiner = new StringJoiner("&");
 
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            String encodedKey = "";
-            String encodedValue = "";
-            try {
-                encodedKey = URLEncoder.encode(entry.getKey(), "UTF-8");
-                encodedValue = URLEncoder.encode(entry.getValue(), "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
+        try {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                String key = URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8);
+                String value = URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8);
+                joiner.add(key + "=" + value);
             }
-
-            joiner.add(encodedKey + "=" + encodedValue);
+        } catch (Exception e) {
+            throw new InternalServerException(e.getMessage());
         }
 
         return joiner.toString();
@@ -86,9 +84,8 @@ public class ApiRequest {
         return webClient
                 .mutate()
                 .baseUrl(baseUri)
-                .defaultHeaders(httpHeaders -> {
-                    headers.forEach(httpHeaders::set);
-                }).build()
+                .defaultHeaders(httpHeaders -> headers.forEach(httpHeaders::set))
+                .build()
                 .post()
                 .uri(uriBuilder -> uriBuilder
                         .path(subUri)
@@ -106,9 +103,11 @@ public class ApiRequest {
                 .baseUrl(baseUri)
                 .build()
                 .post()
-                .uri(uriBuilder -> uriBuilder
-                        .path(subUri)
-                        .build())
+                .uri(uriBuilder -> {
+                    URI uri = uriBuilder.path(subUri).build();
+                    log.info("Request Post URI: {}", uri);
+                    return uri;
+                })
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
