@@ -1,6 +1,7 @@
 package kr.co.apiy.quiz.entity;
 
 import jakarta.persistence.*;
+import kr.co.apiy.global.entity.BaseEntity;
 import lombok.*;
 
 @Entity
@@ -10,7 +11,7 @@ import lombok.*;
 @ToString(exclude = "quiz")
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuizAnswer {
+public class QuizAnswer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

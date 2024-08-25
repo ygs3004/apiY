@@ -1,6 +1,7 @@
 package kr.co.apiy.quiz.entity;
 
 import jakarta.persistence.*;
+import kr.co.apiy.global.entity.BaseEntity;
 import kr.co.apiy.quiz.dto.QuizCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuizSet {
+public class QuizSet extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

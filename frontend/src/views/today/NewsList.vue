@@ -29,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <VCard class="ma-4 bg-brown-lighten-2" v-for="newsResponse in newsList" :key="newsResponse.title" color="pastel"
+  <VCard class="ma-4 bg-brown-lighten-2" v-for="newsResponse in newsList" :key="newsResponse.title" color="secondary"
          max-width="300px"
          max-height="400px">
     <VCardItem style="height:100%; padding-top: 15px;">

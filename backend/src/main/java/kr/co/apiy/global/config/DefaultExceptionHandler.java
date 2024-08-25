@@ -18,25 +18,31 @@ public class DefaultExceptionHandler {
 
     private final LogRepository logRepository;
 
-    @ExceptionHandler(value = InternalServerException.class)
+    @ExceptionHandler(InternalServerException.class)
     public ResponseEntity<String> internalServerException(InternalServerException e) {
         log.warn(e.getMessage(), e);
         this.saveErrorLog(e.getCode(), e);
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(value = RuntimeException.class)
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> invalid(RuntimeException e) {
         log.warn(e.getMessage(), e);
         this.saveErrorLog(HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> invalidData(MethodArgumentNotValidException e) {
         log.warn(e.getMessage(), e);
         String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<String> badRequest(RuntimeException e) {
+        log.warn(e.getMessage(), e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     private void saveErrorLog(int code, Exception e){

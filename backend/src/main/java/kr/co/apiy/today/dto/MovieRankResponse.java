@@ -1,11 +1,13 @@
 package kr.co.apiy.today.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.apiy.global.utils.Constants;
 import lombok.*;
 
 import java.time.LocalDate;
 
+@Schema(name = "박스오피스 랭크 정보")
 @Builder
 @AllArgsConstructor
 @Getter

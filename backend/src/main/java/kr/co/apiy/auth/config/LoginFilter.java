@@ -86,7 +86,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             json.put("message", message);
             out.print(json);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn(e);
             throw new RuntimeException(e);
         }
 

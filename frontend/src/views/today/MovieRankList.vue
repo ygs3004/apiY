@@ -42,7 +42,7 @@ onMounted(() => {
 <template>
   <VRow>
     <VCol cols="12" lg="4" class="py-0">
-      <v-list lines="three" :items="item1" item-props variant="text" bg-color="pastel">
+      <v-list lines="three" :items="item1" item-props variant="text" bg-color="secondary">
         <template v-slot:title="{item}">
           <div class="font-weight-bold">
             {{item.rank}}. {{item.movieName}}
@@ -64,7 +64,7 @@ onMounted(() => {
       </v-list>
     </VCol>
     <VCol cols="12" lg="4" class="py-0">
-      <v-list lines="three" :items="item2" item-props  variant="text" bg-color="pastel">
+      <v-list lines="three" :items="item2" item-props  variant="text" bg-color="secondary">
         <template v-slot:title="{item}">
           <div class="font-weight-bold">
             {{item.rank}}. {{item.movieName}}

@@ -1,10 +1,12 @@
 package kr.co.apiy.today.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Schema(name = "날씨 정보")
 @Builder
 @AllArgsConstructor
 @Getter

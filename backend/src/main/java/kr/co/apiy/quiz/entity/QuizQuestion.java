@@ -1,6 +1,7 @@
 package kr.co.apiy.quiz.entity;
 
 import jakarta.persistence.*;
+import kr.co.apiy.global.entity.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"quizSet", "answers"})
-public class QuizQuestion {
+public class QuizQuestion extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
