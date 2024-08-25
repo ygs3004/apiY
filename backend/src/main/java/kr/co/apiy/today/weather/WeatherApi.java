@@ -48,6 +48,7 @@ public class WeatherApi {
         Map<String, String> queryParam = getRequestQueryParam();
 
         String responseJson = apiRequest.get(BASE_URL, SUB_URL, queryParam);
+        log.info("Weather Api response: {}", responseJson);
         JSONObject responseJsonObj = new JSONObject(responseJson).getJSONObject("response");
         JSONObject header = responseJsonObj.getJSONObject("header");
 
@@ -69,6 +70,8 @@ public class WeatherApi {
         String baseDate = baseDateTime[0];
         String baseTime = baseDateTime[1];
 
+        log.info("===============================================");
+        log.info("기상청 Api 실행: {}, {}", baseDate, baseTime);
         Map<String, String> queryParam = new HashMap<>();
         queryParam.put("serviceKey", WEATHER_FORECAST_KEY);
         queryParam.put("pageNo", "1");

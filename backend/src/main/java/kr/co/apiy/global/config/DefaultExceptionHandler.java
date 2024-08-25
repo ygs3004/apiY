@@ -1,6 +1,6 @@
 package kr.co.apiy.global.config;
 
-import kr.co.apiy.global.entity.ExceptionLogEntity;
+import kr.co.apiy.global.entity.ExceptionLog;
 import kr.co.apiy.global.exception.InternalServerException;
 import kr.co.apiy.global.log.LogRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class DefaultExceptionHandler {
     }
 
     private void saveErrorLog(int code, Exception e){
-        logRepository.save(ExceptionLogEntity
+        logRepository.save(ExceptionLog
                 .builder()
                 .errorCode(code)
                 .errorMessage(e.getMessage())

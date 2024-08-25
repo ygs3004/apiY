@@ -6,10 +6,13 @@ import WeatherForecast from "@/views/today/WeatherForecast.vue";
 </script>
 
 <template>
-  <VLayout max-width="100vw">
+  <VLayout max-width="100vw" >
     <VCol>
       <VCol cols="12">
-        <h1 class="mb-2">날씨예보</h1>
+        <VRow style="gap: 1rem">
+          <h1 class="mb-2">날씨</h1>
+          <VTextField variant="plain">기상청 단기예보 조회서비스 정보입니다.</VTextField>
+        </VRow>
       </VCol>
       <VRow style="max-width: 1200px;" >
         <WeatherForecast/>
@@ -19,7 +22,7 @@ import WeatherForecast from "@/views/today/WeatherForecast.vue";
 
       <VRow>
         <VCol cols="12">
-          <h1>뉴스정보</h1>
+          <h1>뉴스</h1>
         </VCol>
         <NewsList/>
       </VRow>
@@ -29,7 +32,7 @@ import WeatherForecast from "@/views/today/WeatherForecast.vue";
       <VRow>
         <VCol cols="0" lg="2"/>
         <VCol cols="12" lg="10">
-          <h1 class="mb-10">일간 박스오피스 순위</h1>
+          <h1 class="mb-10">일간 박스오피스</h1>
         </VCol>
         <VCol cols="0" lg="2"/>
         <VCol cols="10">

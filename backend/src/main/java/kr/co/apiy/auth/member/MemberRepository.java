@@ -1,10 +1,10 @@
 package kr.co.apiy.auth.member;
 
-import kr.co.apiy.auth.entity.MemberEntity;
+import kr.co.apiy.auth.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
-    Optional<MemberEntity> findByEmail(String email);
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findByEmail(String email);
 }

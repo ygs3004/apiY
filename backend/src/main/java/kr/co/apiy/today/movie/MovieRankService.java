@@ -4,7 +4,7 @@ import kr.co.apiy.global.exception.InternalServerException;
 import kr.co.apiy.today.dto.MovieRankApiResult;
 import kr.co.apiy.today.dto.MovieRankResponse;
 import kr.co.apiy.today.dto.RankInto;
-import kr.co.apiy.today.entity.MovieRankEntity;
+import kr.co.apiy.today.entity.MovieRank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -31,20 +31,20 @@ public class MovieRankService {
     public List<MovieRankResponse> getYesterdayMovieRank() {
         PageRequest pageable = PageRequest.of(0, 10
                 , Sort.by("rankDate").descending().and(Sort.by("rank").ascending()));
-        Page<MovieRankEntity> movieRanksPage = movieRankRepository.findAll(pageable);
-        List<MovieRankEntity> movieRankEntities = movieRanksPage.getContent();
+        Page<MovieRank> movieRanksPage = movieRankRepository.findAll(pageable);
+        List<MovieRank> movieRankEntities = movieRanksPage.getContent();
         List<MovieRankResponse> movieRankResponseResult = movieRankEntities.stream()
-                .map(movieRankEntity -> MovieRankResponse.builder()
-                        .rankDate(movieRankEntity.getRankDate())
-                        .rank(movieRankEntity.getRank())
-                        .movieName(movieRankEntity.getMovieName())
-                        .rankChange(movieRankEntity.getRankChange())
-                        .rankOldAndNew(movieRankEntity.getRankOldAndNew().name())
-                        .openDate(movieRankEntity.getOpenDate())
-                        .audienceTotalCnt(movieRankEntity.getAudienceTotalCnt())
-                        .audienceDayCnt(movieRankEntity.getAudienceDayCnt())
-                        .audienceChange(movieRankEntity.getAudienceChange())
-                        .audienceChangeRatio(movieRankEntity.getAudienceChangeRatio())
+                .map(movieRank -> MovieRankResponse.builder()
+                        .rankDate(movieRank.getRankDate())
+                        .rank(movieRank.getRank())
+                        .movieName(movieRank.getMovieName())
+                        .rankChange(movieRank.getRankChange())
+                        .rankOldAndNew(movieRank.getRankOldAndNew().name())
+                        .openDate(movieRank.getOpenDate())
+                        .audienceTotalCnt(movieRank.getAudienceTotalCnt())
+                        .audienceDayCnt(movieRank.getAudienceDayCnt())
+                        .audienceChange(movieRank.getAudienceChange())
+                        .audienceChangeRatio(movieRank.getAudienceChangeRatio())
                         .build()
                 ).toList();
 
@@ -54,7 +54,7 @@ public class MovieRankService {
     }
 
     public void saveMovieRankData(List<MovieRankApiResult> movieRanks, LocalDate targetDate) {
-        Optional<List<MovieRankEntity>> existRankEntityList = movieRankRepository.findByRankDate(targetDate);
+        Optional<List<MovieRank>> existRankEntityList = movieRankRepository.findByRankDate(targetDate);
         // 데이터가 없을경우 List 길이가 0으로 return, isPresent = true
         AtomicBoolean isNotUpdateYet = new AtomicBoolean(false);
         existRankEntityList.ifPresentOrElse(
@@ -65,9 +65,9 @@ public class MovieRankService {
         );
 
         if (isNotUpdateYet.get()) {
-            List<MovieRankEntity> saveList = new ArrayList<>();
+            List<MovieRank> saveList = new ArrayList<>();
             movieRanks.forEach(movieRankApiResult -> {
-                MovieRankEntity movieRankEntity = MovieRankEntity
+                MovieRank movieRank = MovieRank
                         .builder()
                         .rankDate(targetDate)
                         .rank(movieRankApiResult.getRank())
@@ -85,7 +85,7 @@ public class MovieRankService {
                         .audienceChange(movieRankApiResult.getAudiInten())
                         .audienceChangeRatio(movieRankApiResult.getAudiChange())
                         .build();
-                saveList.add(movieRankEntity);
+                saveList.add(movieRank);
             });
             movieRankRepository.saveAll(saveList);
         }

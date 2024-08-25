@@ -2,7 +2,7 @@ package kr.co.apiy.today.weather;
 
 import kr.co.apiy.today.dto.WeatherApiResult;
 import kr.co.apiy.today.dto.WeatherResponse;
-import kr.co.apiy.today.entity.WeatherEntity;
+import kr.co.apiy.today.entity.Weather;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -28,24 +28,24 @@ public class WeatherService {
 
     public List<WeatherResponse> searchWeatherForecast() {
         Pageable pageable = PageRequest.of(0, 8, Sort.by("forecastDatetime").descending());
-        Page<WeatherEntity> result = weatherRepository.findAll(pageable);
+        Page<Weather> result = weatherRepository.findAll(pageable);
         return result.getContent().stream()
-                .map(weatherEntity -> WeatherResponse.builder()
-                        .forecastDatetime(weatherEntity.getForecastDatetime())
-                        .precipitationProbability(weatherEntity.getPrecipitationProbability())
-                        .precipitationType(weatherEntity.getPrecipitationType())
-                        .humidity(weatherEntity.getHumidity())
-                        .skyCondition(weatherEntity.getSkyCondition())
-                        .temperature(weatherEntity.getTemperature())
-                        .windDirection(weatherEntity.getWindDirection())
-                        .windSpeed(weatherEntity.getWindSpeed())
+                .map(weather -> WeatherResponse.builder()
+                        .forecastDatetime(weather.getForecastDatetime())
+                        .precipitationProbability(weather.getPrecipitationProbability())
+                        .precipitationType(weather.getPrecipitationType())
+                        .humidity(weather.getHumidity())
+                        .skyCondition(weather.getSkyCondition())
+                        .temperature(weather.getTemperature())
+                        .windDirection(weather.getWindDirection())
+                        .windSpeed(weather.getWindSpeed())
                         .build())
                 .toList();
     }
 
     public void updateWeatherForecastData(List<WeatherApiResult> WeatherApiResult) {
-        Map<LocalDateTime, WeatherEntity> forecastEntitiesPerTime = parseWeatherApiResult(WeatherApiResult);
-        List<WeatherEntity> savedEntities = new ArrayList<>();
+        Map<LocalDateTime, Weather> forecastEntitiesPerTime = parseWeatherApiResult(WeatherApiResult);
+        List<Weather> savedEntities = new ArrayList<>();
         forecastEntitiesPerTime.forEach((localDateTime, forecastEntity) -> {
             weatherRepository
                     .findAllByForecastDatetime(localDateTime)
@@ -57,12 +57,12 @@ public class WeatherService {
         weatherRepository.saveAll(savedEntities);
     }
 
-    public Map<LocalDateTime, WeatherEntity> parseWeatherApiResult(List<WeatherApiResult> WeatherApiResult) {
-        Map<LocalDateTime, WeatherEntity> timeMap = new HashMap<>();
+    public Map<LocalDateTime, Weather> parseWeatherApiResult(List<WeatherApiResult> WeatherApiResult) {
+        Map<LocalDateTime, Weather> timeMap = new HashMap<>();
         for (WeatherApiResult item : WeatherApiResult) {
             LocalDateTime fcstDatetime = LocalDateTime.of(item.getFcstDate(), item.getFcstTime());
-            WeatherEntity foreCastTimeEntity = timeMap.computeIfAbsent(fcstDatetime,
-                    timeKey_ -> WeatherEntity
+            Weather foreCastTimeEntity = timeMap.computeIfAbsent(fcstDatetime,
+                    timeKey_ -> Weather
                             .builder()
                             .forecastDatetime(fcstDatetime)
                             .build());

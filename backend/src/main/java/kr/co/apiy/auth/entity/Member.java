@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @ToString
-public class MemberEntity extends BaseEntity {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

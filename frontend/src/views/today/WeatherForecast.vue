@@ -5,14 +5,14 @@ const {proxy} = getCurrentInstance();
 const {$axios} = proxy;
 
 const weatherForecast = ref([{
-  forecastDatetime: "2024-08-24 Saturday 23시",
-  precipitationProbability: 0,
-  precipitationType: null,
-  skyCondition: null,
-  humidity: 0,
-  temperature: 27,
-  windDirection: 259,
-  windSpeed: 0
+  forecastDatetime: "",
+  precipitationProbability: "",
+  precipitationType: "",
+  skyCondition: "",
+  humidity: "",
+  temperature: "",
+  windDirection: "",
+  windSpeed: ""
 }]);
 
 const searchWeatherForecast = () => {

@@ -1,7 +1,7 @@
 package kr.co.apiy.auth.service;
 
 import kr.co.apiy.auth.dto.SignupRequest;
-import kr.co.apiy.auth.entity.MemberEntity;
+import kr.co.apiy.auth.entity.Member;
 import kr.co.apiy.auth.member.MemberService;
 import kr.co.apiy.auth.member.MemberRepository;
 import org.junit.jupiter.api.Assertions;
@@ -33,15 +33,15 @@ public class MemberServiceTest {
                 .name("윤건수")
                 .password("123456")
                 .build();
-        MemberEntity memberEntity = memberService.signup(testDTO);
+        Member member = memberService.signup(testDTO);
 
-        Optional<MemberEntity> savedMember = memberRepository.findById(memberEntity.getId());
+        Optional<Member> savedMember = memberRepository.findById(member.getId());
         savedMember.ifPresentOrElse(
                 saved -> {
                     System.out.println("saved: " + saved);
-                    Assertions.assertEquals(saved.getEmail(), memberEntity.getEmail(), "가입 요청한 이메일과 다른이메일로 가입되었습니다.");
-                    Assertions.assertEquals(saved.getPassword(), memberEntity.getPassword(), "가입 요청한 비밀번호와 다른 비밀번호로 가입되었습니다.");
-                    Assertions.assertEquals(saved.getName(), memberEntity.getName(), "가입 요청한 이름과 다른 이름으로 가입되었습니다.");
+                    Assertions.assertEquals(saved.getEmail(), member.getEmail(), "가입 요청한 이메일과 다른이메일로 가입되었습니다.");
+                    Assertions.assertEquals(saved.getPassword(), member.getPassword(), "가입 요청한 비밀번호와 다른 비밀번호로 가입되었습니다.");
+                    Assertions.assertEquals(saved.getName(), member.getName(), "가입 요청한 이름과 다른 이름으로 가입되었습니다.");
                 },
                 () -> {
                     Assertions.fail("회원 가입 Process 확인 필요.");

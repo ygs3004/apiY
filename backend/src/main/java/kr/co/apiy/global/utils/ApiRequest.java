@@ -14,6 +14,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -60,6 +61,7 @@ public class ApiRequest {
                 })
                 .retrieve()
                 .bodyToMono(String.class)
+                .timeout(Duration.ofSeconds(10))
                 .doOnError(log::warn)
                 .block();
     }
@@ -93,6 +95,7 @@ public class ApiRequest {
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
+                .timeout(Duration.ofSeconds(10))
                 .doOnError(log::warn)
                 .block();
     }
@@ -111,6 +114,7 @@ public class ApiRequest {
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
+                .timeout(Duration.ofSeconds(10))
                 .doOnError(log::warn)
                 .block();
     }

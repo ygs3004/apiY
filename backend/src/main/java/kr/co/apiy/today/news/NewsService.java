@@ -4,7 +4,7 @@ import kr.co.apiy.global.utils.Constants;
 import kr.co.apiy.global.utils.StringUtils;
 import kr.co.apiy.today.dto.NewsResponse;
 import kr.co.apiy.today.dto.NewsApiResult;
-import kr.co.apiy.today.entity.NewsEntity;
+import kr.co.apiy.today.entity.News;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jsoup.Jsoup;
@@ -35,19 +35,19 @@ public class NewsService {
 
     public List<NewsResponse> getLatestNews() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("pubDate").descending());
-        Page<NewsEntity> result = newsRepository.findAll(pageable);
+        Page<News> result = newsRepository.findAll(pageable);
         return result.getContent()
                 .stream()
-                .map(newsEntity -> NewsResponse.builder()
+                .map(news -> NewsResponse.builder()
                         .title(
-                                Jsoup.parse(newsEntity.getTitle()).text()
+                                Jsoup.parse(news.getTitle()).text()
                         )
-                        .originalLink(newsEntity.getOriginalLink())
-                        .link(newsEntity.getLink())
+                        .originalLink(news.getOriginalLink())
+                        .link(news.getLink())
                         .description(
-                                Jsoup.parse(newsEntity.getDescription()).text()
+                                Jsoup.parse(news.getDescription()).text()
                         )
-                        .pubDate(StringUtils.LocalDateTimeToGlobalFormat(newsEntity.getPubDate()))
+                        .pubDate(StringUtils.LocalDateTimeToGlobalFormat(news.getPubDate()))
                         .build())
                 .toList();
     }
@@ -65,11 +65,11 @@ public class NewsService {
             boolean isKoreanNews = this.isKoreanString(titleHead);
             isKoreanNews = isKoreanNews && this.isKoreanString(descriptionHead);
 
-            Optional<NewsEntity> newsEntity = newsRepository.findByTitleLike(titleHead + "%");
+            Optional<News> newsEntity = newsRepository.findByTitleLike(titleHead + "%");
             boolean hasNoData = newsEntity.isEmpty();
 
             if(hasNoData && isKoreanNews){
-                newsRepository.save(NewsEntity.builder()
+                newsRepository.save(News.builder()
                         .title(newsResponse.getTitle())
                         .link(newsResponse.getLink())
                         .description(newsResponse.getDescription())

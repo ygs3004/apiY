@@ -62,6 +62,16 @@ public class SwaggerConfig {
                 .build();
     }
 
+
+    @Bean
+    public GroupedOpenApi groupQuiz(){
+        String[] pathToMatch = {"/quiz/**"};
+        return GroupedOpenApi.builder()
+                .group("퀴즈 API")
+                .pathsToMatch(pathToMatch)
+                .build();
+    }
+
     // login 필요시
     // public OpenApiCustomizer authOperationCustomizer() {
     //     return openApi -> {

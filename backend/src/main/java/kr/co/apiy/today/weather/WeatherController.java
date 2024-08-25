@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Log4j2
-@Tag(name = "뉴스 API", description = "최신 뉴스정보 확인")
+@Tag(name = "날씨 API", description = "날씨 예보 정보 확인")
 @RequestMapping("/weather/*")
 public class WeatherController {
 
