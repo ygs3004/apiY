@@ -20,6 +20,5 @@ public class WeatherScheduler {
     public void updateWeatherData() {
         List<WeatherApiResult> response = weatherApi.getWeatherForecast();
         weatherService.updateWeatherForecastData(response);
-        // weatherService.searchWeatherForecast();
     }
 }

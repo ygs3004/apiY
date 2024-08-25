@@ -75,8 +75,7 @@ public class WeatherApi {
         queryParam.put("numOfRows", "100");
         queryParam.put("dataType", "JSON");
         queryParam.put("base_date", baseDate); // 발표일
-        // queryParam.put("base_time", baseTime); // 발표시간
-        queryParam.put("base_time", "2000"); // 발표시간
+        queryParam.put("base_time", baseTime); // 발표시간
         // 서울 기준
         queryParam.put("nx", "60");
         queryParam.put("ny", "127");
