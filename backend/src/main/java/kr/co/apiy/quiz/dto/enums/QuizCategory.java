@@ -1,4 +1,4 @@
-package kr.co.apiy.quiz.dto;
+package kr.co.apiy.quiz.dto.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

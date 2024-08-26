@@ -8,15 +8,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import kr.co.apiy.quiz.dto.QuizSetSaveRequest;
-import kr.co.apiy.quiz.dto.QuizSetResponse;
+import kr.co.apiy.quiz.dto.response.QuizSetResponse;
+import kr.co.apiy.quiz.dto.request.QuizSetSaveRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Log4j2
 @Tag(name = "퀴즈 API", description = "퀴즈 제공 API")
-@RequestMapping("/quiz/*")
+@RequestMapping("/quiz")
 public class QuizController {
 
     private final QuizService quizService;
@@ -36,8 +33,11 @@ public class QuizController {
             }),
     })
     @GetMapping("/set")
-    public ResponseEntity<List<QuizSetResponse>> getQuizSets() {
-        List<QuizSetResponse> result = quizService.getQuizSets();
+    public ResponseEntity<List<QuizSetResponse>> getQuizSets(
+            @Valid
+            @RequestParam int page
+    ) {
+        List<QuizSetResponse> result = quizService.getQuizSets(page);
         return ResponseEntity.ok(result);
     }
 
@@ -46,13 +46,13 @@ public class QuizController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
-    @PutMapping("/set")
+    @PutMapping("/set/save")
     public ResponseEntity<Void> saveQuizSets(
             @Valid
             @Schema(implementation = QuizSetSaveRequest.class)
             QuizSetSaveRequest quizSetSaveRequest
     ) {
-        quizService.saveQuizSet();
+        quizService.saveQuizSet(quizSetSaveRequest);
         return ResponseEntity.ok().build();
     }
 

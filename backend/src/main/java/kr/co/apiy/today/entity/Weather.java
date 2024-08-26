@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "WEATHER")
 @Builder
 @Getter
-@Setter
+@Setter // Weather Api 특성상 최초 만들고 하나씩 추가해야해서 Setter 필요
 @NoArgsConstructor
 @AllArgsConstructor
 public class Weather extends BaseEntity {

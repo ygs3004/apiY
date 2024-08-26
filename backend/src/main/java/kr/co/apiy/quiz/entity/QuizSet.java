@@ -2,7 +2,7 @@ package kr.co.apiy.quiz.entity;
 
 import jakarta.persistence.*;
 import kr.co.apiy.global.entity.BaseEntity;
-import kr.co.apiy.quiz.dto.QuizCategory;
+import kr.co.apiy.quiz.dto.enums.QuizCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +22,7 @@ public class QuizSet extends BaseEntity {
 
     private QuizCategory category;
 
-    private String setName;
+    @Column(nullable = false)
+    private String subject;
 
 }

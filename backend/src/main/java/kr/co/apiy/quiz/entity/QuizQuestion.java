@@ -23,7 +23,7 @@ public class QuizQuestion extends BaseEntity {
     
     @Comment("퀴즈 내용")
     @Column(nullable = false)
-    private String content;
+    private String question;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private QuizSet quizSet;
@@ -35,4 +35,8 @@ public class QuizQuestion extends BaseEntity {
             orphanRemoval = true // 참조가 없는 하위 객체 삭제
     )
     private List<QuizAnswer> answers = new ArrayList<>();
+
+    public void addAnswer(QuizAnswer quizAnswer){
+        this.answers.add(quizAnswer);
+    }
 }

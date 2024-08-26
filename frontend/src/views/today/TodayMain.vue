@@ -6,7 +6,7 @@ import WeatherForecast from "@/views/today/WeatherForecast.vue";
 </script>
 
 <template>
-  <VLayout max-width="100vw" >
+  <VLayout>
     <VCol>
       <VCol cols="12">
         <VRow style="gap: 1rem">

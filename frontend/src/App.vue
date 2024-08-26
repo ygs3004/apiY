@@ -29,33 +29,36 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <v-layout class="rounded rounded-md">
-    <v-navigation-drawer
+  <VLayout class="rounded rounded-md" width="100%">
+    <VNavigationDrawer
         expand-on-hover
         rail
         v-model="onMenu"
         color="secondary"
     >
 
-      <v-list density="default" >
-        <v-list-item prepend-icon="mdi-calendar" title="오늘 하루" @click="goPage('today')"></v-list-item>
-        <v-list-item prepend-icon="mdi-pencil" title="자유게시판" @click="goPage('board')"></v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-app-bar color="primary" title="매일 매일 행복하게 꿀잠자는 하루되기" height="50">
+      <VList density="default" >
+        <VListItem prepend-icon="mdi-home-circle-outline" title="홈" @click="goPage('today')"></VListItem>
+        <VListItem prepend-icon="mdi-help-box-outline" title="퀴즈" @click="goPage('quiz')"></VListItem>
+      </VList>
+    </VNavigationDrawer>
+    <VAppBar color="primary" title="매일 매일 행복하게 꿀잠" height="50">
       <template v-slot:prepend>
         <VDivider class="my-16" length="90%"/>
-        <v-app-bar-nav-icon @click="handleMenu"/>
+        <VAppBarNavIcon @click="handleMenu"/>
       </template>
-    </v-app-bar>
+    </VAppBar>
 
-    <v-main class="d-flex align-center justify-center" min-height="100vh" min-width="100vw">
-      <v-container>
+    <VMain class="d-flex align-center justify-center pl-0" width="98vw">
+      <VContainer class="px-0">
         <router-view/>
-      </v-container>
-    </v-main>
-  </v-layout>
+      </VContainer>
+    </VMain>
+  </VLayout>
 </template>
 
 <style scoped>
+body{
+
+}
 </style>

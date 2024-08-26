@@ -14,9 +14,9 @@ const router = createRouter({
       component: () => import('@/views/today/TodayMain.vue')
     },
     {
-      path: '/board',
-      name: 'board',
-      component: () => import('@/views/board/BoardList.vue')
+      path: '/quiz',
+      name: 'quiz',
+      component: () => import('@/views/quiz/QuizList.vue')
     },
     // {
     //   path: '/about',
