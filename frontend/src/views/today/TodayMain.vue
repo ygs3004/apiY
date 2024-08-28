@@ -32,7 +32,7 @@ import WeatherForecast from "@/views/today/WeatherForecast.vue";
       <VRow>
         <VCol cols="0" lg="2"/>
         <VCol cols="12" lg="10">
-          <h1 class="mb-10">일간 박스오피스</h1>
+          <h1 class="mb-2">일간 박스오피스</h1>
         </VCol>
         <VCol cols="0" lg="2"/>
         <VCol cols="10">

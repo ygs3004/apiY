@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import kr.co.apiy.quiz.dto.response.QuizQuestionResponse;
 import kr.co.apiy.quiz.dto.response.QuizSetResponse;
 import kr.co.apiy.quiz.dto.request.QuizSetSaveRequest;
 import lombok.RequiredArgsConstructor;
@@ -33,27 +34,39 @@ public class QuizController {
             }),
     })
     @GetMapping("/set")
-    public ResponseEntity<List<QuizSetResponse>> getQuizSets(
-            @Valid
-            @RequestParam int page
+    public ResponseEntity<List<QuizSetResponse>> searchQuizSets(
+            @Valid @RequestParam int page
     ) {
-        List<QuizSetResponse> result = quizService.getQuizSets(page);
+        List<QuizSetResponse> result = quizService.searchQuizSets(page);
         return ResponseEntity.ok(result);
     }
 
-
-    @Operation(summary = "퀴즈 목록 등록/수정", description = "퀴즈 세트 등록/수정가능합니다.")
+    @Operation(summary = "퀴즈 목록 등록", description = "퀴즈 세트 등록/수정가능합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
     @PutMapping("/set/save")
     public ResponseEntity<Void> saveQuizSets(
-            @Valid
+            @Valid @RequestBody
             @Schema(implementation = QuizSetSaveRequest.class)
             QuizSetSaveRequest quizSetSaveRequest
     ) {
         quizService.saveQuizSet(quizSetSaveRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "퀴즈 조회", description = "퀴즈 문제 모음을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공", content = {
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = QuizQuestionResponse.class)))
+            }),
+    })
+    @GetMapping("/question")
+    public ResponseEntity<List<QuizQuestionResponse>> searchQuizQuestions(
+            @Valid @RequestParam long quizSetId
+    ) {
+        List<QuizQuestionResponse> result = quizService.searchQuizQuestions(quizSetId);
+        return ResponseEntity.ok(result);
     }
 
 }

@@ -16,8 +16,13 @@ const router = createRouter({
     {
       path: '/quiz',
       name: 'quiz',
-      component: () => import('@/views/quiz/QuizList.vue')
+      component: () => import('@/views/quiz/QuizList.vue'),
     },
+    {
+      path: "/quiz/:quizSetId",
+      name: 'quiz-solve',
+      component: () =>  import('@/views/quiz/QuizSolve.vue'),
+    }
     // {
     //   path: '/about',
     //   name: 'about',

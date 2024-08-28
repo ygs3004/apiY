@@ -30,5 +30,4 @@ public class QuizAnswer extends BaseEntity {
     @Column(nullable = false)
     Boolean isCorrect;
 
-
 }

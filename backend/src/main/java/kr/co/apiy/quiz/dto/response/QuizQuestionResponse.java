@@ -13,6 +13,10 @@ import java.util.List;
 @ToString
 public class QuizQuestionResponse {
 
+    QuizSetResponse quizSet;
+
+    long id;
+
     String question;
 
     List<QuizAnswerResponse> answers;

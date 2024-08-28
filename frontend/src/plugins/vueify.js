@@ -22,7 +22,7 @@ export default createVuetify({
                     info: '#FFD95A',
                     success: '#4CAF50',
                     warning: '#FFC107',
-                    pastel: '#e7ebf3'
+                    pastel: '#dbe8ff'
                 }
             }
         }

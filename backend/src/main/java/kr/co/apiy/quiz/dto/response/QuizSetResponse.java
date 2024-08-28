@@ -14,10 +14,10 @@ import java.util.List;
 @ToString
 public class QuizSetResponse {
 
+    private long id;
+
     private QuizCategory category;
 
     private String subject;
-
-    private List<QuizQuestionResponse> quizQuestions;
 
 }
