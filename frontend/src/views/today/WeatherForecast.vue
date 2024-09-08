@@ -78,7 +78,7 @@ onMounted(() => {
             </div>
           </VCardTitle>
           <VCardSubtitle opacity="0.7" >
-            <div class="font-weight-bold">{{ weather.forecastDatetime}}</div>
+            <div class="font-weight-bold text-left">{{ weather.forecastDatetime}}</div>
           </VCardSubtitle>
           <VCardText>
             <div class="d-flex" style="gap:1rem">

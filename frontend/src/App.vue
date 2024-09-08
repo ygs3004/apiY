@@ -49,7 +49,7 @@ onBeforeMount(() => {
       </template>
     </VAppBar>
 
-    <VMain class="d-flex align-center justify-center pl-0" width="98vw">
+    <VMain class="d-flex align-center justify-center pl-0" width="100vw">
       <VContainer class="px-0">
         <router-view/>
       </VContainer>

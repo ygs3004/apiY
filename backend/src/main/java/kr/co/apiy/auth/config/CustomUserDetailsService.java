@@ -31,6 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService{
         if (result.isPresent()) {
             Member member = result.get();
             return new AuthMemberDto(
+                    member.getId(),
                     member.getEmail(),
                     member.getPassword(),
                     member.getRoleSet().stream()

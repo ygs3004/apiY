@@ -1,4 +1,4 @@
-package kr.co.apiy.quiz;
+package kr.co.apiy.quiz.repository;
 
 import kr.co.apiy.quiz.entity.QuizQuestion;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface QuizQuestionRepository  extends JpaRepository<QuizQuestion, Long> {
 
     @EntityGraph(attributePaths = {"quizSet"}) // fetch join eager
-    Optional<List<QuizQuestion>> findQuizQuestionsByQuizSetId(Long quizSetId);
+    Optional<List<QuizQuestion>> findQuizQuestionsByQuizSetIdOrderById(Long quizSetId);
 
 }
