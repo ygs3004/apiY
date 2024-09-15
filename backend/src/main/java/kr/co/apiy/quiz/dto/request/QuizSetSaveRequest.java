@@ -27,13 +27,15 @@ public class QuizSetSaveRequest {
     @Schema(description = "퀴즈 주제")
     private String subject;
 
-    @Size(min = 1, message = "등록 신청한 문제가 없습니다.")
     @Schema(description = "문제 목록")
+    @Size(min = 1, message = "등록 신청한 문제가 없습니다.")
+    @Builder.Default
     private List<@Valid Question> questions = new ArrayList<>();
 
     @Schema(name = "퀴즈 문제 저장 요청")
     @Getter
     @Setter
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Question {
@@ -42,8 +44,9 @@ public class QuizSetSaveRequest {
         @Schema(description = "문제 내용")
         private String question;
 
-        @Size(min = 2, message = "최소 두개의 보기가 필요합니다.")
         @Schema(description = "문제 보기")
+        @Size(min = 2, message = "최소 두개의 보기가 필요합니다.")
+        @Builder.Default
         private List<@Valid Answer> answers = new ArrayList<>();
 
     }

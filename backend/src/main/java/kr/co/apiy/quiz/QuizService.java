@@ -21,6 +21,7 @@ import kr.co.apiy.quiz.repository.QuizSolveHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class QuizService {
     private final MemberRepository memberRepository;
 
     public List<QuizSetResponse> searchQuizSets(int page) {
-        PageRequest pageable = PageRequest.of(page, 10);
+        PageRequest pageable = PageRequest.of(page, 10, Sort.by("regDate").descending());
         return quizSetRepository
                 .findAll(pageable)
                 .stream()

@@ -1,10 +1,11 @@
 <script setup>
 import {computed, getCurrentInstance, onMounted, ref} from 'vue'
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 const {proxy} = getCurrentInstance();
 const {$axios} = proxy;
 const route = useRoute();
+const router = useRouter();
 
 onMounted(() => {
   searchQuizQuestion();
@@ -68,9 +69,16 @@ const submitAnswer =  async () => {
     quizSetId: solveResult.quizSetId = quizQuestions.value[0].quizSet.id,
     questionSolves: solveResult,
   }
-  console.log(requestBody)
   const response = await $axios.post('/quiz/solve', requestBody);
-  console.log(response)
+  history.pushState({
+    quizResult: response.data,
+    quizSubject: quizSubject.value,
+    quizCategory: quizCategory.value,
+  },"",);
+
+  await router.replace({
+    name: "quiz-complete",
+  });
 }
 </script>
 
