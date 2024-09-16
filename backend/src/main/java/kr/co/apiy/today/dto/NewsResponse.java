@@ -13,15 +13,20 @@ import lombok.*;
 @AllArgsConstructor
 public class NewsResponse {
 
+    @Schema(description = "제목")
     private String title;
 
     @JsonProperty("originallink")
+    @Schema(description = "원본링크")
     private String originalLink;
 
+    @Schema(description = "링크")
     private String link;
 
+    @Schema(description = "자세히")
     private String description;
 
+    @Schema(description = "발행일")
     private String pubDate;
 
 }

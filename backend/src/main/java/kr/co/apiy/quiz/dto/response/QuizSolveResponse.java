@@ -11,10 +11,10 @@ import lombok.*;
 @ToString
 public class QuizSolveResponse {
 
-    @Schema(name = "문제 수")
+    @Schema(description = "문제 수")
     Integer questionCount;
 
-    @Schema(name = "정답 수")
+    @Schema(description = "정답 수")
     Integer correctCount;
     
 }
