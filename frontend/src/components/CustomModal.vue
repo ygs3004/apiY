@@ -2,7 +2,16 @@
 import {ref} from "vue";
 
 const emit = defineEmits(['close'])
-defineProps(["title", "content"])
+defineProps({
+  title: {
+    type: String,
+    default: "알림",
+  },
+  content: {
+    type: String,
+    default: "확인필요",
+  },
+})
 
 const isActive = ref(true);
 const close = () => {

@@ -19,7 +19,7 @@ const router = createRouter({
       component: () => import('@/views/quiz/QuizList.vue'),
     },
     {
-      path: "/quiz/:quizSetId",
+      path: "/quiz/solve/:quizSetId",
       name: 'quiz-solve',
       component: () =>  import('@/views/quiz/QuizSolve.vue'),
     },
@@ -27,7 +27,12 @@ const router = createRouter({
       path: "/quiz/complete",
       name: 'quiz-complete',
       component: () =>  import('@/views/quiz/QuizComplete.vue'),
-    }
+    },
+    {
+      path: "/quiz/create",
+      name: 'quiz-create',
+      component: () =>  import('@/views/quiz/QuizCreate.vue'),
+    },
     // {
     //   path: '/about',
     //   name: 'about',

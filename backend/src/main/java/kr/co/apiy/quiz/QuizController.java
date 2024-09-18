@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.co.apiy.auth.dto.AuthMemberDto;
+import kr.co.apiy.auth.dto.ComboResponse;
 import kr.co.apiy.quiz.dto.request.QuizSetSaveRequest;
 import kr.co.apiy.quiz.dto.request.QuizSolveRequest;
 import kr.co.apiy.quiz.dto.response.QuizQuestionResponse;
@@ -31,6 +32,18 @@ public class QuizController {
 
     private final QuizService quizService;
 
+    @Operation(summary = "퀴즈 카테고리 종류", description = "사용 가능한 카테고리 목록을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공", content = {
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = ComboResponse.class)))
+            }),
+    })
+    @GetMapping("/combo/category")
+    public ResponseEntity<ComboResponse> searchQuizCategory() {
+        ComboResponse result = quizService.searchQuizCategory();
+        return ResponseEntity.ok(result);
+    }
+
     @Operation(summary = "퀴즈 목록 조회", description = "퀴즈 세트 목록을 검색합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = {
@@ -49,14 +62,14 @@ public class QuizController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
-    @PutMapping("/set/save")
+    @PutMapping("/set")
     public ResponseEntity<Void> saveQuizSets(
             @Valid @RequestBody
             @Schema(implementation = QuizSetSaveRequest.class)
             QuizSetSaveRequest quizSetSaveRequest
     ) {
         quizService.saveQuizSet(quizSetSaveRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity. ok().build();
     }
 
     @Operation(summary = "퀴즈 조회", description = "퀴즈를 조회합니다.")

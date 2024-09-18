@@ -8,9 +8,12 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Schema(name = "퀴즈 카테고리", example = "ENGLISH, MATH, GAME, ETC")
 public enum QuizCategory {
-    ENGLISH("영어"), MATH("수학"), GAME("게임"), ETC("기타");
+    ENGLISH("영어"), MATH("수학"),
+    GAME("게임"), COMMON_SENSE("상식"),
+    DEVELOPMENT("개발"), KOREAN("한글"),
+    ETC("기타");
 
-    String korName;
+    final String korName;
 
     QuizCategory(String korName) {
         this.korName = korName;

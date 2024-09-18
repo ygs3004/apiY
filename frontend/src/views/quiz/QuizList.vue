@@ -34,14 +34,22 @@ const searchQuizSets  = async () => {
 }
 
 const goQuizChallenge = (quizSetId) => {
-  router.push(`/quiz/${quizSetId}`)
+  router.push(`/quiz/solve/${quizSetId}`)
 }
+
+const goQuizCreatePage = () => {
+  router.push('/quiz/create')
+}
+
 </script>
 
 <template>
   <VLayout>
 <!--    <VBtn @click="saveTestData">테스트</VBtn>-->
-    <VInfiniteScroll class="mx-auto" min-width="50%" height="50%" :items="quizSets" :onLoad="load">
+    <VInfiniteScroll class="mx-auto w-lg-50" width="90%" height="50%" :items="quizSets" :onLoad="load">
+      <VBtn color="primary" class="right-0" prepend-icon="mdi-pencil-plus" @click="goQuizCreatePage">
+        퀴즈 등록하기
+      </VBtn>
       <VList lines="three">
         <template v-for="(quizSet) in quizSets"
                   :key="quizSet.id">

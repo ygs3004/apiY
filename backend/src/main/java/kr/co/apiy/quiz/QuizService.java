@@ -2,10 +2,12 @@ package kr.co.apiy.quiz;
 
 import jakarta.validation.Valid;
 import kr.co.apiy.auth.dto.AuthMemberDto;
+import kr.co.apiy.auth.dto.ComboResponse;
 import kr.co.apiy.auth.entity.Member;
 import kr.co.apiy.auth.member.MemberRepository;
 import kr.co.apiy.global.exception.BadRequestException;
 import kr.co.apiy.global.exception.InternalServerException;
+import kr.co.apiy.quiz.dto.enums.QuizCategory;
 import kr.co.apiy.quiz.dto.request.QuizSetSaveRequest;
 import kr.co.apiy.quiz.dto.request.QuizSolveRequest;
 import kr.co.apiy.quiz.dto.response.QuizQuestionResponse;
@@ -41,6 +43,22 @@ public class QuizService {
     private final QuizSolveHistoryRepository quizSolveHistoryRepository;
     private final MemberRepository memberRepository;
 
+    public ComboResponse searchQuizCategory() {
+
+        ComboResponse comboResponse = ComboResponse.builder().name("퀴즈 카테고리").build();
+        List<ComboResponse.ComboItem> comboItems = comboResponse.getComboList();
+
+        for(QuizCategory category : QuizCategory.values()){
+            ComboResponse.ComboItem comboItem = ComboResponse.ComboItem.builder()
+                    .label(category.getValue())
+                    .value(category.name())
+                    .build();
+            comboItems.add(comboItem);
+        }
+
+        return comboResponse;
+    }
+
     public List<QuizSetResponse> searchQuizSets(int page) {
         PageRequest pageable = PageRequest.of(page, 10, Sort.by("regDate").descending());
         return quizSetRepository
@@ -57,7 +75,7 @@ public class QuizService {
 
     public void saveQuizSet(@Valid QuizSetSaveRequest quizSetSaveRequest) {
         QuizSet quizSetEntity = QuizSet.builder()
-                .subject(quizSetSaveRequest.getSubject())
+                .subject(quizSetSaveRequest.getSubject().trim())
                 .category(quizSetSaveRequest.getCategory())
                 .build();
 

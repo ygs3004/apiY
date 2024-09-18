@@ -14,7 +14,6 @@ const goPage = (page) => {
   router.push(`/${page}`)
 }
 
-console.log(navigator.userAgent)
 const initOnMenu = !/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 const onMenu = ref(initOnMenu);
