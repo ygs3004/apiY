@@ -99,18 +99,18 @@ const submitAnswer =  async () => {
             hide-delimiters
             v-model="curSlideIdx"
         >
-          <template v-slot:prev="{ props }">
+          <template v-slot:prev>
             <VBtn size="40" icon="mdi-chevron-left" color="primary" variant="tonal"
-                  @click="onChangePrev(props.onClick)"/>
+                  @click="onChangePrev"/>
           </template>
-          <template v-slot:next="{ props }">
+          <template v-slot:next>
             <VBtn size="40" icon="mdi-chevron-right" color="primary" variant="tonal"
-                  @click="onChangeNext(props.onClick)"/>
+                  @click="onChangeNext"/>
           </template>
 
           <VCarouselItem v-for="(item) in quizQuestions" :key="item.id">
             <div class="d-flex fill-height justify-center align-center px-16">
-              <div class="text-h2">
+              <div class="text-h4">
                 {{ item.question }}
               </div>
             </div>
