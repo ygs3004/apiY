@@ -61,13 +61,13 @@ public class SampleController {
     }
 
     @PostMapping("/security")
-    @Operation(summary = "Security Sample API", description = "로그인이 처리 테스트", security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(summary = "Security Sample API", description = "로그인이 처리 테스트입니다.", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<String> testSample() {
         return ResponseEntity.ok().body("성공");
     }
 
     @PostMapping("/healthcheck")
-    @Operation(summary = "Healthcheck", description = "서버 연결 확인")
+    @Operation(summary = "Healthcheck", description = "서버 연결 확인테스트입니다.")
     public ResponseEntity<String> healthcheck() {
         String success = "Healthcheck: Success";
         log.info(success);

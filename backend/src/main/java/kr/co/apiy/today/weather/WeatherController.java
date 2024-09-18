@@ -26,7 +26,7 @@ public class WeatherController {
 
     private final WeatherService weatherService;
 
-    @Operation(summary = "날씨 예보", description = "기상청 API 단기예보정보")
+    @Operation(summary = "날씨 예보", description = "기상청 API 단기예보정보로 서울 날씨를 검색합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = {
                     @Content(array = @ArraySchema(schema = @Schema(implementation = WeatherResponse.class)))

@@ -26,7 +26,7 @@ public class NewsController {
 
     private final NewsService newsService;
 
-    @Operation(summary = "뉴스 정보", description = "최신 뉴스 정보 검색")
+    @Operation(summary = "뉴스 정보", description = "최신 뉴스 정보를 검색합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = {
                     @Content(array = @ArraySchema(schema = @Schema(implementation = NewsResponse.class)))
