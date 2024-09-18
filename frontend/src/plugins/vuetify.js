@@ -8,6 +8,26 @@ import {aliases, mdi} from "vuetify/iconsets/mdi";
 
 
 export default createVuetify({
+    // aliases: {
+    //     MyButton: VBtn
+    // },
+    defaults: {
+        // MyButton: {variant: 'tonal'}
+        VTextField: {
+            class: "py-3",
+            variant: "solo"
+        },
+        VTextarea: {
+            class: "py-3",
+            variant: "solo"
+        },
+        VSelect: {
+            class: "py-1",
+            variant: "solo",
+            itemTitle: "label",
+            itemValue: "value",
+        }
+    },
     blueprint: md2,
     components,
     directives,
@@ -18,7 +38,7 @@ export default createVuetify({
                     primary: '#0066FF',
                     secondary: '#eefaf8',
                     accent: '#0044CC',
-                    error: '#FF5252',
+                    error: '#fc7474',
                     info: '#FFD95A',
                     success: '#4CAF50',
                     warning: '#FFC107',
