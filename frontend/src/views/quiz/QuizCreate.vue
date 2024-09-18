@@ -1,6 +1,6 @@
 <script setup>
 
-import {getCurrentInstance, reactive, ref} from "vue";
+import {getCurrentInstance, ref} from "vue";
 import {useRouter} from "vue-router";
 
 const {proxy} = getCurrentInstance();
@@ -8,7 +8,7 @@ const {$axios, $modal} = proxy;
 const router = useRouter();
 
 const categoryResponse = await $axios.get("/quiz/combo/category");
-const quizCombo = reactive(categoryResponse.data.comboList);
+const quizCombo = ref(categoryResponse.data.comboList);
 
 const selectCategory = ref("");
 const quizSubject = ref("");
@@ -57,26 +57,6 @@ const questions = ref(createQuestions());
 const removeQuestion = (questionIdx) => {
   questions.value.splice(questionIdx, 1);
 }
-
-// const quizSaveRequest = {
-//   category: "",
-//   subject: "",
-//   questions: [
-//     {
-//       question: "string",
-//       answers: [
-//         {
-//           answer: "string",
-//           isCorrect: true
-//         },
-//         {
-//           answe": "string",
-//           isCorrect: true
-//         }
-//       ]
-//     }
-//   ]
-// }
 
 const submit = async (event) => {
   const checkSubmit = await event;
