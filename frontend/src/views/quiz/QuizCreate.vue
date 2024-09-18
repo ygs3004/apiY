@@ -1,14 +1,17 @@
 <script setup>
 
-import {getCurrentInstance, ref} from "vue";
+import {getCurrentInstance, onBeforeMount, ref} from "vue";
 import {useRouter} from "vue-router";
 
 const {proxy} = getCurrentInstance();
 const {$axios, $modal} = proxy;
 const router = useRouter();
 
-const categoryResponse = await $axios.get("/quiz/combo/category");
-const quizCombo = ref(categoryResponse.data.comboList);
+const quizCombo = ref();
+onBeforeMount( async () => {
+  const categoryResponse = await $axios.get("/quiz/combo/category");
+  quizCombo.value = categoryResponse.data.comboList;
+});
 
 const selectCategory = ref("");
 const quizSubject = ref("");
