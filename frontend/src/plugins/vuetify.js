@@ -14,15 +14,12 @@ export default createVuetify({
     defaults: {
         // MyButton: {variant: 'tonal'}
         VTextField: {
-            class: "py-3",
             variant: "solo"
         },
         VTextarea: {
-            class: "py-3",
             variant: "solo"
         },
         VSelect: {
-            class: "py-1",
             variant: "solo",
             itemTitle: "label",
             itemValue: "value",

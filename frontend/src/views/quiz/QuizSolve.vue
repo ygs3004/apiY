@@ -58,13 +58,25 @@ const onSelectAnswer = (answerId, toggle) => {
 }
 
 const submitAnswer =  async () => {
-  const solveResult = quizQuestions.value.map(question => {
+  let unsolvedIdx = null;
+  const solveResult = quizQuestions.value.map((question, idx) => {
     const selectedAnswer = question.answers.find(answer => answer.isSelected);
+    if(!selectedAnswer){
+      unsolvedIdx = idx;
+      return;
+    }
+
     return {
       questionId: question.id,
       selectedAnswerId: selectedAnswer.id
     }
   });
+
+  if(unsolvedIdx !== null){
+    curSlideIdx.value = unsolvedIdx;
+    return;
+  }
+
   const requestBody = {
     quizSetId: solveResult.quizSetId = quizQuestions.value[0].quizSet.id,
     questionSolves: solveResult,

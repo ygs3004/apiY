@@ -2,9 +2,10 @@
 
 import {getCurrentInstance, onBeforeMount, ref} from "vue";
 import {useRouter} from "vue-router";
+import {HttpStatusCode} from "axios";
 
 const {proxy} = getCurrentInstance();
-const {$axios, $modal} = proxy;
+const {$axios, $modal, $utils} = proxy;
 const router = useRouter();
 
 const quizCombo = ref();
@@ -16,9 +17,7 @@ onBeforeMount( async () => {
 const selectCategory = ref("");
 const quizSubject = ref("");
 
-const required = (value) => {
-  return !!value || "값을 입력해주세요"
-}
+const required = $utils.required;
 
 const createAnswer = () => {
   return {
@@ -61,9 +60,12 @@ const removeQuestion = (questionIdx) => {
   questions.value.splice(questionIdx, 1);
 }
 
+const isValid = ref(false);
+
 const submit = async (event) => {
-  const checkSubmit = await event;
-  if(checkSubmit.valid){
+  const checkEvent = await event;
+
+  if(isValid.value){
     questions.value.forEach( question => {
       const correctAnswerIdx = question.answerNum - 1;
       const answers = question.answers;
@@ -81,16 +83,15 @@ const submit = async (event) => {
     }
 
     const response = await $axios.put("/quiz/set", quizSaveRequest);
-    if(response.status === 200){
+    if(response.status === HttpStatusCode.Ok){
       await router.push("/quiz")
     }else{
       $modal({
         title: "오류",
       })
     }
-    console.log(response);
   }else{
-    const invalidInputId = checkSubmit.errors[0].id;
+    const invalidInputId = checkEvent.errors[0].id;
     document.querySelector(`#${invalidInputId}`).focus();
   }
 }
@@ -99,17 +100,19 @@ const submit = async (event) => {
 
 <template>
   <VCol cols="12" lg="6" offset-lg="3">
-    <VSheet class="mx-auto pa-lg-10 pa-2" border>
-      <VForm @submit.prevent="submit">
+    <VSheet class="mx-auto px-2 px-lg-10" border>
+      <VForm v-model="isValid" @submit.prevent="submit">
         <div class="text-h4 my-7">
           퀴즈 등록하기
         </div>
         <VSelect
+            class="mb-2"
             label="카테고리"
             :items="quizCombo"
             :rules="[required]"
             v-model="selectCategory"/>
         <VTextField
+            class="mb-10"
               v-model="quizSubject"
               :rules="[required]"
               label="퀴즈 주제"/>
@@ -136,7 +139,7 @@ const submit = async (event) => {
                       :rules="[required]"
                       label="문제"/>
                 </VRow>
-                <VRow class="px-4" v-for="num in 4" :key="num">
+                <VRow class="px-4 mb-1" v-for="num in 4" :key="num">
                     <VTextField
                         v-model="question.answers[num - 1].answer"
                         :rules="[required]"

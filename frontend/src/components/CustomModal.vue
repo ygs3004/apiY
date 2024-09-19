@@ -23,9 +23,13 @@ const close = () => {
 
 <template>
   <VDialog max-width="500" v-model="isActive">
-    <VCard :title="title">
+    <VCard>
+      <VCardTitle class="py-3 bg-blue-darken-3">
+        {{title}}
+      </VCardTitle>
+
       <VCardText>
-        {{content}}
+        <div v-html="content"/>
       </VCardText>
 
       <VCardActions>
@@ -33,6 +37,7 @@ const close = () => {
 
         <VBtn
             text="닫기"
+            variant="elevated"
             @click="close"
         ></VBtn>
       </VCardActions>

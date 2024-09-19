@@ -66,7 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <VCol v-for="weather in weatherForecast" :key="weather.forecastDatetime" cols="10" lg="3">
+    <VCol v-for="weather in weatherForecast" :key="weather.forecastDatetime" cols="12" lg="3">
       <VCard variant="elevated" color="secondary">
         <VCardItem style="height:100%;">
           <VCardTitle>

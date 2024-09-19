@@ -6,6 +6,7 @@ import router from '@/router'
 import axios from "axios";
 import vuetify from "@/plugins/vuetify.js"
 import {useModal} from "@/components/CustomModal.vue"
+import utils from "@/utils/utils.js";
 
 const app = createApp(App)
 
@@ -21,14 +22,16 @@ const globalAxios = axios.create({
 globalAxios.interceptors.response.use(
     (response) => response,
     (error) => {
+        console.warn(error);
         useModal().showModal({
-            title: "오류",
-            content: error.message
+            content: error.response.data.message
         })
+        return error.response;
     }
 )
 
 app.config.globalProperties.$axios = globalAxios;
+app.config.globalProperties.$utils = utils;
 
 app.config.globalProperties.$modal = useModal().showModal;
 

@@ -1,6 +1,7 @@
 <script setup>
 import {getCurrentInstance, ref} from 'vue'
 import {useRouter} from "vue-router";
+import {HttpStatusCode} from "axios";
 const {proxy} = getCurrentInstance();
 const {$axios} = proxy;
 
@@ -25,7 +26,7 @@ const searchQuizSets  = async () => {
     }
   });
 
-  if (response.status === 200) {
+  if (response.status === HttpStatusCode.Ok) {
     requestPage.value++;
     return response.data;
   }else{

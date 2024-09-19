@@ -10,14 +10,11 @@ import kr.co.apiy.auth.dto.SignupRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "로그인/회원가입", description = "로그인/회원가입 API")
 @RestController
-@RequestMapping("/member/*")
+@RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -25,7 +22,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<HttpStatus> signup(@Valid SignupRequest signupRequest) {
+    public ResponseEntity<HttpStatus> signup(@Valid @RequestBody SignupRequest signupRequest) {
         memberService.signup(signupRequest);
         return ResponseEntity.ok().build();
     }

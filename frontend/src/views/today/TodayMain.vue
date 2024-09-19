@@ -7,14 +7,11 @@ import WeatherForecast from "@/views/today/WeatherForecast.vue";
 
 <template>
   <VLayout>
-    <VCol>
-      <VCol cols="12">
-        <VRow style="gap: 1rem">
-          <h1 class="mb-2">날씨</h1>
-          <VTextField variant="plain">기상청 단기예보 조회서비스 정보입니다.</VTextField>
-        </VRow>
-      </VCol>
-      <VRow style="max-width: 1200px;" >
+    <VCol cols="12">
+      <VRow style="gap: 1rem">
+        <span class="text-h3 my-3">날씨<span class="ml-5 text-subtitle-1">기상청 단기예보 조회서비스 정보입니다.</span></span>
+      </VRow>
+      <VRow style="max-width: 1200px;">
         <WeatherForecast/>
       </VRow>
 
@@ -22,7 +19,7 @@ import WeatherForecast from "@/views/today/WeatherForecast.vue";
 
       <VRow>
         <VCol cols="12">
-          <h1>뉴스</h1>
+          <div class="text-h3 my-3">뉴스</div>
         </VCol>
         <NewsList/>
       </VRow>
@@ -30,16 +27,13 @@ import WeatherForecast from "@/views/today/WeatherForecast.vue";
       <VDivider class="my-16" length="90%"/>
 
       <VRow>
-        <VCol cols="0" lg="2"/>
         <VCol cols="12" lg="10">
-          <h1 class="mb-2">일간 박스오피스</h1>
+          <div class="text-h3 my-3">일간 박스오피스</div>
         </VCol>
-        <VCol cols="0" lg="2"/>
-        <VCol cols="10">
+        <VCol cols="12" offset-lg="">
           <MovieList/>
         </VCol>
       </VRow>
-
     </VCol>
   </VLayout>
 </template>

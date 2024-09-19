@@ -35,9 +35,6 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
         String email = request.getParameter("email");
         String pw = request.getParameter("password");
-        log.info("email: ??? : " + email);
-        log.info("pw: ??? : " + pw);
-
         try{
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, pw);
             return getAuthenticationManager().authenticate(authToken);
@@ -63,7 +60,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             json.put("accessToken", token);
             out.print(json);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn(e);
             throw new RuntimeException(e);
         }
     }
