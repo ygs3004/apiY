@@ -1,7 +1,9 @@
 <script setup>
-import {ref} from "vue";
+import {computed, getCurrentInstance, ref} from "vue";
 import {useRouter} from "vue-router";
 
+const {proxy} = getCurrentInstance();
+const {$forceUpdate} = proxy;
 const router = useRouter();
 
 const goPage = (page) => {
@@ -15,13 +17,22 @@ const handleMenu = () => {
   onMenu.value = !onMenu.value
 }
 
+const isLogin = ref(!!localStorage.getItem("token"));
+
+const login = () => {
+  isLogin.value = true;
+}
+
 const goLoginPage = () => {
   router.push('/login')
 }
 
-// const logout = () => {
-//
-// }
+const logout = () => {
+  localStorage.removeItem("token");
+  isLogin.value = false;
+  goLoginPage();
+}
+
 </script>
 
 <template>
@@ -44,21 +55,20 @@ const goLoginPage = () => {
         <VAppBarNavIcon @click="handleMenu"/>
       </template>
       <template v-slot:append>
-        <VRow class="cursor-pointer" align="center" @click="goLoginPage">
+        <VRow v-if="!isLogin" class="cursor-pointer" align="center" @click="goLoginPage">
           <VAppBarTitle text="로그인"/>
           <VIcon class="mr-5 ml-2" icon="mdi-login"/>
         </VRow>
-
-<!--        <VRow align="center">-->
-<!--          <VAppBarTitle text="로그아웃"/>-->
-<!--          <VIcon class="mr-5 ml-2" icon="mdi-logout" @click="logout"/>-->
-<!--        </VRow>-->
+        <VRow v-else class="cursor-pointer" align="center" @click="logout">
+          <VAppBarTitle text="로그아웃"/>
+          <VIcon class="mr-5 ml-2" icon="mdi-logout"/>
+        </VRow>
       </template>
     </VAppBar>
 
     <VMain class="d-flex align-center justify-center" width="100vw">
       <VContainer class="px-0">
-        <router-view/>
+        <router-view v-on:login="login"/>
       </VContainer>
     </VMain>
   </VLayout>

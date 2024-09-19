@@ -1,5 +1,6 @@
 package kr.co.apiy.auth.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.apiy.auth.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final ObjectMapper objectMapper;
     @Value("${jwt.secret}") String secretKey;
 
     @Bean
@@ -79,7 +81,7 @@ public class SecurityConfig {
     }
 
     public LoginFilter apiLoginFilter(AuthenticationManager authenticationManager) {
-        LoginFilter loginFilter = new LoginFilter("/member/login", jwtUtil());
+        LoginFilter loginFilter = new LoginFilter("/member/login", jwtUtil(), objectMapper);
         loginFilter.setAuthenticationManager(authenticationManager);
         return loginFilter;
     }

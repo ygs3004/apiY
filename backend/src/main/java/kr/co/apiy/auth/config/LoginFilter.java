@@ -1,11 +1,14 @@
 package kr.co.apiy.auth.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.apiy.auth.dto.AuthMemberDto;
+import kr.co.apiy.auth.dto.LoginRequest;
 import kr.co.apiy.auth.exception.LoginFailException;
 import kr.co.apiy.auth.utils.JwtUtils;
+import kr.co.apiy.global.exception.InternalServerException;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
@@ -22,10 +25,12 @@ import java.nio.charset.StandardCharsets;
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private final JwtUtils jwtUtils;
+    private final ObjectMapper objectMapper;
 
-    public LoginFilter(String defaultFilterProcessesUrl, JwtUtils jwtUtils) {
+    public LoginFilter(String defaultFilterProcessesUrl, JwtUtils jwtUtils, ObjectMapper objectMapper) {
         super(defaultFilterProcessesUrl);
         this.jwtUtils = jwtUtils;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -33,14 +38,19 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
         log.info("Login Filter..............................................");
         log.info("=================== attemptAuthentication ===================");
 
-        String email = request.getParameter("email");
-        String pw = request.getParameter("password");
-        try{
+        try {
+            LoginRequest loginMember = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
+            String email = loginMember.getEmail();
+            String pw = loginMember.getPassword();
+            log.info("login try Email: {}", email);
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, pw);
             return getAuthenticationManager().authenticate(authToken);
-        }catch (AuthenticationException e){
+        } catch (AuthenticationException e) {
             log.info(e.getMessage());
             throw new LoginFailException("아이디 또는 비밀번호가 잘못 되었습니다.");
+        } catch (Exception e) {
+            log.warn(e);
+            throw new LoginFailException("로그인에 실패하였습니다.");
         }
 
     }

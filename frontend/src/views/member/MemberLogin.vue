@@ -3,7 +3,7 @@ import {getCurrentInstance, ref} from "vue";
 import {useRouter} from "vue-router";
 
 const {proxy} = getCurrentInstance();
-const {$utils} = proxy;
+const {$utils, $axios} = proxy;
 
 const router = useRouter();
 const required = $utils.required
@@ -16,10 +16,26 @@ const goSignupPage = () => {
   router.push("/signup")
 }
 
-const submit = () => {
-  console.log(isValid.value)
-  if (!isValid.value) return
-  alert("로그인!")
+const email = ref("");
+const password = ref("");
+
+const emit = defineEmits(['login'])
+const submit = async (event) => {
+  const checkEvent = await event;
+  if (isValid.value){
+    const response = await $axios.post("member/login", {
+      email: email.value,
+      password: password.value,
+    })
+
+    const {tokenType, accessToken} = response.data;
+    localStorage.setItem("token", `${tokenType} ${accessToken}`);
+    emit('login');
+    await router.push("/");
+  }else{
+    const invalidInputId = checkEvent.errors[0].id;
+    document.querySelector(`#${invalidInputId}`).focus();
+  }
 }
 </script>
 
@@ -34,6 +50,7 @@ const submit = () => {
       <div class="text-subtitle-1 text-medium-emphasis">Email</div>
 
       <VTextField
+          v-model="email"
           density="compact"
           placeholder="계정(이메일)"
           prepend-inner-icon="mdi-email-outline"
@@ -53,6 +70,7 @@ const submit = () => {
       </div>
 
       <VTextField
+          v-model="password"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
           :type="visible ? 'text' : 'password'"
           density="compact"

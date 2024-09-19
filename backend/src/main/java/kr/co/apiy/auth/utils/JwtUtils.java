@@ -1,7 +1,9 @@
 package kr.co.apiy.auth.utils;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import kr.co.apiy.auth.dto.JwtParseResult;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -33,6 +35,20 @@ public class JwtUtils {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public JwtParseResult jwtParse(String token){
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return JwtParseResult
+                .builder()
+                .email(claims.getSubject())
+                .expiration(claims.getExpiration())
+                .build();
     }
 
 }

@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.co.apiy.auth.dto.JwtParseResult;
 import kr.co.apiy.auth.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONObject;
@@ -32,7 +33,6 @@ public class AccessTokenCheckFilter extends OncePerRequestFilter {
 
         log.info("REQUEST URI: " + request.getRequestURI());
         log.info("Need Auth: " + antPathMatcher.match(pattern, request.getRequestURI()));
-
         if (antPathMatcher.match(pattern, request.getRequestURI())) {
             log.info("Access Token Check..............................................");
 
@@ -40,11 +40,11 @@ public class AccessTokenCheckFilter extends OncePerRequestFilter {
             if (checkHeader) {
                 filterChain.doFilter(request, response);
             } else {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json;charset=utf-8");
                 JSONObject json = new JSONObject();
                 String message = "FAIL CHECK API TOKEN";
-                json.put("code", HttpServletResponse.SC_FORBIDDEN);
+                json.put("code", HttpServletResponse.SC_UNAUTHORIZED);
                 json.put("message", message);
 
                 PrintWriter out = response.getWriter();
@@ -67,11 +67,13 @@ public class AccessTokenCheckFilter extends OncePerRequestFilter {
         int tokenStartIndex = tokenPrefix.length();
 
         if (StringUtils.hasText(authHeader) && authHeader.startsWith(tokenPrefix)) {
-            log.info("Authorization exist: " + authHeader);
+            log.info("Authorization exist: {}", authHeader);
 
-            String email = jwtUtils.parseEmail(authHeader.substring(tokenStartIndex));
-            log.info("Validate Email: " + email);
-            checkResult = email.length() > 0;
+            JwtParseResult jwtParseResult = jwtUtils.jwtParse(authHeader.substring(tokenStartIndex));
+
+            log.info("Validate Email: {}", jwtParseResult.getEmail());
+            log.info("Expiration: {}", jwtParseResult.getExpiration());
+            checkResult = jwtParseResult.isValid();
         }
 
         return checkResult;
