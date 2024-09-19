@@ -36,8 +36,7 @@ globalAxios.interceptors.response.use(
         console.warn(error);
         if(error.response?.status === HttpStatusCode.Unauthorized){
             localStorage.removeItem("token")
-            const route = useRoute();
-            if(route.path !== "/login"){
+            if(location.href.endsWith("/login")){
                 router.push("/login")
             }
         }

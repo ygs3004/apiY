@@ -1,6 +1,7 @@
 <script setup>
 import {getCurrentInstance, ref} from "vue";
 import {useRouter} from "vue-router";
+import {HttpStatusCode} from "axios";
 
 const {proxy} = getCurrentInstance();
 const {$utils, $axios} = proxy;
@@ -28,10 +29,14 @@ const submit = async (event) => {
       password: password.value,
     })
 
-    const {tokenType, accessToken} = response.data;
-    localStorage.setItem("token", `${tokenType} ${accessToken}`);
-    emit('login');
-    await router.push("/");
+    console.log(response)
+    if (response.status === HttpStatusCode.Ok) {
+      const {tokenType, accessToken} = response.data;
+      localStorage.setItem("token", `${tokenType} ${accessToken}`);
+      emit('login');
+      await router.push("/");
+    }
+
   }else{
     const invalidInputId = checkEvent.errors[0].id;
     document.querySelector(`#${invalidInputId}`).focus();
