@@ -24,7 +24,7 @@ const close = () => {
 <template>
   <VDialog max-width="500" v-model="isActive">
     <VCard>
-      <VCardTitle class="py-3 bg-blue-darken-3">
+      <VCardTitle class="py-3 bg-yellow-darken-3">
         {{title}}
       </VCardTitle>
 

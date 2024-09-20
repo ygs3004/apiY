@@ -29,10 +29,8 @@ const submit = async (event) => {
       password: password.value,
     })
 
-    console.log(response)
     if (response.status === HttpStatusCode.Ok) {
-      const {tokenType, accessToken} = response.data;
-      localStorage.setItem("token", `${tokenType} ${accessToken}`);
+      $utils.setSessionStorageItem("loginUser", response.data);
       emit('login');
       await router.push("/");
     }

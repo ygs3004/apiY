@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Log4j2
 @Tag(name = "샘플", description = "Javadoc,Swagger TEST")
-@RequestMapping("/sample/*")
+@RequestMapping("/sample")
 public class SampleController {
 
     // Array Response

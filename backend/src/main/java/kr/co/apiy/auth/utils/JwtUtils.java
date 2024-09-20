@@ -4,11 +4,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import kr.co.apiy.auth.dto.JwtParseResult;
+import lombok.extern.log4j.Log4j2;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@Log4j2
 public class JwtUtils {
 
     final SecretKey key;

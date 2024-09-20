@@ -63,10 +63,12 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             Authentication authResult) {
         try (PrintWriter out = response.getWriter()) {
             String email = ((AuthMemberDto) authResult.getPrincipal()).getEmail();
+            String loginUserName = ((AuthMemberDto) authResult.getPrincipal()).getName();
             String token = jwtUtils.createJwt(email);
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
             JSONObject json = new JSONObject();
             json.put("tokenType", JwtUtils.TOKEN_TYPE_BEARER);
+            json.put("loginUserName", loginUserName);
             json.put("accessToken", token);
             out.print(json);
         } catch (IOException e) {

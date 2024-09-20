@@ -7,7 +7,6 @@ import axios, {HttpStatusCode} from "axios";
 import vuetify from "@/plugins/vuetify.js"
 import {useModal} from "@/components/CustomModal.vue"
 import utils from "@/utils/utils.js";
-import {useRoute} from "vue-router";
 
 const app = createApp(App)
 
@@ -22,9 +21,11 @@ const globalAxios = axios.create({
 });
 
 globalAxios.interceptors.request.use(config => {
-    const token = localStorage.getItem("token");
-    if (token) {
-        config.headers.Authorization = token
+    const loginUser = utils.getSessionStorageItem("loginUser");
+
+    if (loginUser) {
+        const {tokenType, accessToken} = loginUser;
+        config.headers.Authorization = `${tokenType} ${accessToken}`;
     }
 
     return config;
@@ -35,7 +36,7 @@ globalAxios.interceptors.response.use(
     (error) => {
         console.warn(error);
         if(error.response?.status === HttpStatusCode.Unauthorized){
-            localStorage.removeItem("token")
+            localStorage.removeItem("loginUser")
             if(location.href.endsWith("/login")){
                 router.push("/login")
             }

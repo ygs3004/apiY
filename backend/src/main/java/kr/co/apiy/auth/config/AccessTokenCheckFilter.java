@@ -43,7 +43,7 @@ public class AccessTokenCheckFilter extends OncePerRequestFilter {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json;charset=utf-8");
                 JSONObject json = new JSONObject();
-                String message = "FAIL CHECK API TOKEN";
+                String message = "로그인이 만료되었습니다.";
                 json.put("code", HttpServletResponse.SC_UNAUTHORIZED);
                 json.put("message", message);
 

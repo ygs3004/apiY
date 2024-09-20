@@ -33,6 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService{
                     member.getId(),
                     member.getEmail(),
                     member.getPassword(),
+                    member.getName(),
                     member.getRoleSet().stream()
                             .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                             .collect(Collectors.toList()));

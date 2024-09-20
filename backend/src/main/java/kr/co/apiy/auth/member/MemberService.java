@@ -24,7 +24,7 @@ public class MemberService {
     public Member signup(SignupRequest signupRequest) {
         Optional<Member> existMember = memberRepository.findByEmail(signupRequest.getEmail());
         existMember.ifPresent(member ->{
-            throw new SignupFailException("이미 존재하는 회원입니다.");
+            throw new SignupFailException("이미 존재하는 회원정보입니다.");
         });
 
         Member newMember = Member.builder()

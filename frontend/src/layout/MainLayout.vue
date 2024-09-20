@@ -1,9 +1,9 @@
 <script setup>
-import {computed, getCurrentInstance, ref} from "vue";
+import {getCurrentInstance, ref} from "vue";
 import {useRouter} from "vue-router";
 
 const {proxy} = getCurrentInstance();
-const {$forceUpdate} = proxy;
+const {$utils} = proxy;
 const router = useRouter();
 
 const goPage = (page) => {
@@ -17,10 +17,13 @@ const handleMenu = () => {
   onMenu.value = !onMenu.value
 }
 
-const isLogin = ref(!!localStorage.getItem("token"));
+const isLogin = ref(!!localStorage.getItem("loginUser"));
+const loginUserName = ref("");
 
 const login = () => {
   isLogin.value = true;
+  const loginUser = $utils.getSessionStorageItem("loginUser");
+  loginUserName.value = loginUser.loginUserName;
 }
 
 const goLoginPage = () => {
@@ -28,10 +31,15 @@ const goLoginPage = () => {
 }
 
 const logout = () => {
-  localStorage.removeItem("token");
+  $utils.removeSessionStorageItem("loginUser");
   isLogin.value = false;
+  loginUserName.value = "";
   goLoginPage();
 }
+
+// const authTest = () => {
+//   $axios.post("/sample/security")
+// }
 
 </script>
 
@@ -49,7 +57,9 @@ const logout = () => {
         <VListItem prepend-icon="mdi-help-box-outline" title="퀴즈" @click="goPage('quiz')"></VListItem>
       </VList>
     </VNavigationDrawer>
-    <VAppBar color="primary" title="꿀잠" height="50">
+    <VAppBar color="primary"
+             height="50"
+             :title="loginUserName ? `${loginUserName}님 오늘도 꿀잠자러 오셨네요!` : `놀다가 꿀잠 자러가시는 곳입니다.`">
       <template v-slot:prepend>
         <VDivider class="my-16" length="90%"/>
         <VAppBarNavIcon @click="handleMenu"/>
