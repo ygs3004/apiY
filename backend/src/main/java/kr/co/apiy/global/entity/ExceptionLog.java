@@ -20,6 +20,7 @@ public class ExceptionLog extends BaseEntity {
 
     private int errorCode;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String errorMessage;
 
 }

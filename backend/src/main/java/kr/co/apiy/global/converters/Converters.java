@@ -26,6 +26,11 @@ public class Converters {
         ForQuizCategory() {
             super(QuizCategory.class);
         }
+
+        @Override
+        public QuizCategory convertToEntityAttribute(String dbData) {
+            return QuizCategory.fromValue(dbData);
+        }
     }
 
 }
