@@ -1,9 +1,9 @@
 <script setup>
-import {getCurrentInstance, ref} from 'vue'
+import {getCurrentInstance, onMounted, ref} from 'vue'
 import {useRouter} from "vue-router";
 import {HttpStatusCode} from "axios";
 const {proxy} = getCurrentInstance();
-const {$axios} = proxy;
+const {$axios, $utils} = proxy;
 
 const router = useRouter();
 
@@ -42,15 +42,19 @@ const goQuizCreatePage = () => {
   router.push('/quiz/create')
 }
 
+const isLogin = ref(!!$utils.getSessionStorageItem("loginUser"));
 </script>
 
 <template>
   <VLayout>
 <!--    <VBtn @click="saveTestData">테스트</VBtn>-->
     <VInfiniteScroll class="mx-auto w-lg-50" width="90%" height="50%" :items="quizSets" :onLoad="load">
-      <VBtn color="primary" class="right-0" prepend-icon="mdi-pencil-plus" @click="goQuizCreatePage">
+      <VBtn v-if="isLogin" color="primary" class="right-0" prepend-icon="mdi-pencil-plus" @click="goQuizCreatePage">
         퀴즈 등록하기
       </VBtn>
+      <VTextField class="" bg-color="primary" variant="filled" v-else readonly>
+        로그인 후 퀴즈 등록이 가능합니다.
+      </VTextField>
       <VList lines="three">
         <template v-for="(quizSet) in quizSets"
                   :key="quizSet.id">
