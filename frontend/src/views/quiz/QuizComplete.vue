@@ -44,6 +44,7 @@ const goQuizList = () => {
           </VTextField>
           <VSpacer></VSpacer>
           <VBtn
+              color="black"
               text="목록으로 돌아가기"
               @click="goQuizList"
           ></VBtn>

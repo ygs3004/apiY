@@ -2,6 +2,7 @@ package kr.co.apiy.global.converters;
 
 import jakarta.persistence.Converter;
 import kr.co.apiy.auth.dto.MemberRole;
+import kr.co.apiy.quiz.dto.enums.QuizCategory;
 import kr.co.apiy.today.dto.RankInto;
 
 public class Converters {
@@ -17,6 +18,13 @@ public class Converters {
     public static class ForRankInto extends DefaultEnumConverter<RankInto>{
         ForRankInto() {
             super(RankInto.class);
+        }
+    }
+
+    @Converter
+    public static class ForQuizCategory extends DefaultEnumConverter<QuizCategory>{
+        ForQuizCategory() {
+            super(QuizCategory.class);
         }
     }
 

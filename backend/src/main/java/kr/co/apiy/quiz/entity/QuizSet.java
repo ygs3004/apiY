@@ -1,6 +1,7 @@
 package kr.co.apiy.quiz.entity;
 
 import jakarta.persistence.*;
+import kr.co.apiy.global.converters.Converters;
 import kr.co.apiy.global.entity.BaseEntity;
 import kr.co.apiy.quiz.dto.enums.QuizCategory;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class QuizSet extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = Converters.ForQuizCategory.class)
     private QuizCategory category;
 
     @Column(nullable = false)

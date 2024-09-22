@@ -39,7 +39,8 @@ export default createVuetify({
                     info: '#FFD95A',
                     success: '#4CAF50',
                     warning: '#FFC107',
-                    pastel: '#dbe8ff'
+                    pastel: '#dbe8ff',
+                    dark: '#000000'
                 }
             }
         }

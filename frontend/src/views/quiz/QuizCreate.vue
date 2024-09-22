@@ -155,7 +155,7 @@ const submit = async (event) => {
         </VRow>
         <VRow>
           <VCol align="center">
-            <VBtn v-if="questions.length < 20" class="mr-3 w-33" text="문제 추가" variant="outlined" @click="addQuestion"/>
+            <VBtn v-if="questions.length < 20" class="mr-3 w-33" color="secondary" text="문제 추가" @click="addQuestion"/>
             <VBtn class="w-33" text="등록" type="submit"/>
           </VCol>
         </VRow>
