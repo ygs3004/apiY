@@ -25,7 +25,7 @@ const quizQuestions = ref([{
     isSelected: false,
   }]
 }]);
-const isLoadingAnswer = ref(false);
+const isLoad = ref(false);
 const quizCategory = ref("");
 const quizSubject = ref("");
 const searchQuizQuestion = async () => {
@@ -38,7 +38,7 @@ const searchQuizQuestion = async () => {
   const {category, subject} = quizQuestions.value[0].quizSet;
   quizCategory.value = category;
   quizSubject.value = subject
-  isLoadingAnswer.value = true;
+  isLoad.value = true;
 }
 
 const curSlideIdx = ref(0);
@@ -97,8 +97,8 @@ const submitAnswer =  async () => {
 <template>
   <VLayout>
     <VCol cols="12" lg="4" offset-lg="4">
-      <VTextField color="primary" bg-color="primary">
-        [{{ quizCategory }}] {{ quizSubject }}
+      <VTextField color="primary" :loading="!isLoad">
+        {{ isLoad ? `[${quizCategory} ${quizSubject}]` : ""}}
       </VTextField>
       <VCard class="mx-auto" elevation="24" max-width="100%">
         <VCarousel
@@ -112,11 +112,11 @@ const submitAnswer =  async () => {
             v-model="curSlideIdx"
         >
           <template v-slot:prev>
-            <VBtn size="40" icon="mdi-chevron-left" color="primary" variant="tonal"
+            <VBtn size="40" icon="mdi-chevron-left" color="accent" variant="tonal"
                   @click="onChangePrev"/>
           </template>
           <template v-slot:next>
-            <VBtn size="40" icon="mdi-chevron-right" color="primary" variant="tonal"
+            <VBtn size="40" icon="mdi-chevron-right" color="accent" variant="tonal"
                   @click="onChangeNext"/>
           </template>
 
@@ -137,7 +137,7 @@ const submitAnswer =  async () => {
       <VItemGroup mandatory>
         <VContainer>
           <VRow>
-            <div v-if="isLoadingAnswer" style="width: 100%">
+            <div v-if="isLoad" style="width: 100%">
               <VCol v-if="completeSolve" cols="12">
                 <VItem>
                   <VCard color="info"

@@ -42,18 +42,22 @@ const goQuizCreatePage = () => {
   router.push('/quiz/create')
 }
 
+const goLoginPage = () => {
+  router.push("/login")
+}
+
 const isLogin = ref(!!$utils.getSessionStorageItem("loginUser"));
 </script>
 
 <template>
   <VLayout>
 <!--    <VBtn @click="saveTestData">테스트</VBtn>-->
-    <VInfiniteScroll class="mx-auto w-lg-50" width="90%" height="50%" :items="quizSets" :onLoad="load">
+    <VInfiniteScroll class="mx-auto w-lg-50 cursor-pointer" width="90%" height="50%" :items="quizSets" :onLoad="load">
       <VBtn v-if="isLogin" color="primary" class="right-0" prepend-icon="mdi-pencil-plus" @click="goQuizCreatePage">
         퀴즈 등록하기
       </VBtn>
-      <VTextField class="" bg-color="primary" variant="filled" v-else readonly>
-        로그인 후 퀴즈 등록이 가능합니다.
+      <VTextField v-else bg-color="primary" variant="filled" @click="goLoginPage"  readonly>
+        로그인 후 퀴즈를 등록해주세요
       </VTextField>
       <VList lines="three">
         <template v-for="(quizSet) in quizSets"

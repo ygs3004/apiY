@@ -69,7 +69,8 @@ const submit = async (event) => {
             rel="noopener noreferrer"
             target="_blank"
         >
-          비밀번호를 잃어버리셨나요?</a>
+<!--          비밀번호를 잃어버리셨나요?-->
+        </a>
       </div>
 
       <VTextField

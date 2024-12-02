@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import kr.co.apiy.global.converters.Converters;
 import kr.co.apiy.global.entity.BaseEntity;
 import kr.co.apiy.quiz.dto.enums.QuizCategory;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "QUIZ_SET")

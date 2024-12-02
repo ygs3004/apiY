@@ -7,29 +7,24 @@ import kr.co.apiy.today.dto.RankInto;
 
 public class Converters {
 
-    @Converter
+    @Converter(autoApply = true)
     public static class ForMemberRole extends DefaultEnumConverter<MemberRole>{
         ForMemberRole() {
             super(MemberRole.class);
         }
     }
 
-    @Converter
+    @Converter(autoApply = true)
     public static class ForRankInto extends DefaultEnumConverter<RankInto>{
         ForRankInto() {
             super(RankInto.class);
         }
     }
 
-    @Converter
+    @Converter(autoApply = true)
     public static class ForQuizCategory extends DefaultEnumConverter<QuizCategory>{
         ForQuizCategory() {
             super(QuizCategory.class);
-        }
-
-        @Override
-        public QuizCategory convertToEntityAttribute(String dbData) {
-            return QuizCategory.fromValue(dbData);
         }
     }
 
