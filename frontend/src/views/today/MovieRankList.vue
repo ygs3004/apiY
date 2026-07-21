@@ -54,11 +54,11 @@ onMounted(() => {
         </template>
         <template v-slot:subtitle="{item}">
           <div class="d-flex" style="gap:0.5rem; margin: 5px 0;">
-            <span>일일관객수: {{item.audienceDayCnt}}</span>
-            <span>누적관객수: {{item.audienceTotalCnt}}</span>
+            <span>일일관객수: {{item.audienceDayCnt.toLocaleString()}}</span>
+            <span>누적관객수: {{item.audienceTotalCnt.toLocaleString()}}</span>
           </div>
           <div class="d-flex" style="gap:0.5rem">
-            <span>일일 관객수 변화량: {{item.audienceChange}} ({{item.audienceChangeRatio}}%)</span>
+            <span>일일 관객수 변화량: {{item.audienceChange.toLocaleString()}} ({{item.audienceChangeRatio}}%)</span>
           </div>
         </template>
       </v-list>
@@ -76,11 +76,11 @@ onMounted(() => {
         </template>
         <template v-slot:subtitle="{item}">
           <div class="d-flex " style="gap:0.5rem; margin: 5px 0;">
-            <span>일일관객수: {{item.audienceDayCnt}}</span>
-            <span>누적관객수: {{item.audienceTotalCnt}}</span>
+            <span>일일관객수: {{item.audienceDayCnt.toLocaleString()}}</span>
+            <span>누적관객수: {{item.audienceTotalCnt.toLocaleString()}}</span>
           </div>
           <div class="d-flex" style="gap:0.5rem">
-            <span>일일 관객수 변화량: {{item.audienceChange}} ({{item.audienceChangeRatio}}%)</span>
+            <span>일일 관객수 변화량: {{item.audienceChange.toLocaleString()}} ({{item.audienceChangeRatio}}%)</span>
           </div>
         </template>
       </v-list>

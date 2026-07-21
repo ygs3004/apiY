@@ -145,7 +145,7 @@ const submit = async (event) => {
                         :rules="[required]"
                         :label="`${num}번 보기`">
                       <template v-slot:prepend>
-                        <VCheckbox base-color="primary" color="primary" v-model="question.answerNum" :value="num" hide-details hide-spin-buttons/>
+                        <VCheckbox base-color="success" color="success" v-model="question.answerNum" :value="num" hide-details hide-spin-buttons/>
                       </template>
                     </VTextField>
                 </VRow>

@@ -71,7 +71,7 @@ onMounted(() => {
         <VCardItem style="height:100%;">
           <VCardTitle>
             <div class="py-2 pr-4 d-flex align-center" style="gap:2rem">
-              <div>{{ weather.skyCondition || '정보수집중입니다.' }} {{ weather.precipitationType }}</div>
+              <div>{{ weather.skyCondition || '정보수집 중입니다.' }} {{ weather.precipitationType }}</div>
               <div>
                 <VIcon :icon="weather.icon" size="40"/>
               </div>

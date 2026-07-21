@@ -80,9 +80,6 @@ public class QuizService {
                 .category(quizSetSaveRequest.getCategory())
                 .build();
 
-        log.info("TEST >>>>>> {}", quizSetEntity.getSubject());
-        log.info("TEST >>>>>> {}", quizSetEntity.getCategory());
-
         quizSetRepository.save(quizSetEntity);
 
         List<QuizQuestion> saveQuestions = new ArrayList<>();
@@ -119,6 +116,10 @@ public class QuizService {
         quizQuestionRepository.findQuizQuestionsByQuizSetIdOrderById(quizSetId)
                 .ifPresentOrElse(
                         (quizQuestionList) -> {
+                            if(quizQuestionList.isEmpty()) {
+                                throw new InternalServerException("등록된 퀴즈 내용이 없습니다.");
+                            }
+
                             log.info(quizQuestionList);
                             QuizSet quizSetEntity = quizQuestionList.get(0).getQuizSet();
                             QuizSetResponse quizSetResponse = QuizSetResponse.builder()

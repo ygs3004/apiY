@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim-buster AS builder
+FROM eclipse-temurin:17-jdk-jammy AS builder
 
 WORKDIR /backend
 
