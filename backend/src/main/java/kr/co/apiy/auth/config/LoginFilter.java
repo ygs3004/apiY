@@ -75,6 +75,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             FilterChain chain,
             Authentication authResult) {
         try (PrintWriter out = response.getWriter()) {
+            log.info("check >>>>>>>>>>>> {}", authResult);
             String email = ((AuthMemberDto) authResult.getPrincipal()).getEmail();
             String loginUserName = ((AuthMemberDto) authResult.getPrincipal()).getName();
             String token = jwtUtils.createJwt(email);

@@ -57,7 +57,7 @@ public class SocialUserLoginApi {
         String socialCode = loginRequest.getSocialCode();
         GoogleUserInfoApiResult userInfo = checkGoogleUser(socialCode, passwordEncoder);
         UserDetails user = customUserDetailsService.loadUserByUsername(userInfo.getEmail());
-        return new UsernamePasswordAuthenticationToken(userInfo.getEmail(), null, user.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
     }
 
     private GoogleUserInfoApiResult checkGoogleUser(String socialCode, PasswordEncoder passwordEncoder) {
