@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -52,10 +53,11 @@ public class SocialUserLoginApi {
     }
 
 
-    public UsernamePasswordAuthenticationToken createGoogleToken(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
+    public Authentication authenticate(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
         String socialCode = loginRequest.getSocialCode();
         GoogleUserInfoApiResult userInfo = checkGoogleUser(socialCode, passwordEncoder);
-        return new UsernamePasswordAuthenticationToken(userInfo.getEmail(), userInfo.getId());
+        UserDetails user = customUserDetailsService.loadUserByUsername(userInfo.getEmail());
+        return new UsernamePasswordAuthenticationToken(userInfo.getEmail(), null, user.getAuthorities());
     }
 
     private GoogleUserInfoApiResult checkGoogleUser(String socialCode, PasswordEncoder passwordEncoder) {

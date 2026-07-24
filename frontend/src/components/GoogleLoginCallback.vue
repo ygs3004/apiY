@@ -17,7 +17,7 @@ const state = query.state;
 const emit = defineEmits(['loginSuccess'])
 // 비정상 접근
 if (randomState !== state) {
-  // router.push("/login");
+  router.push("/login");
 } else {
   const response = await $axios.post("/member/login", {
     email: "google",

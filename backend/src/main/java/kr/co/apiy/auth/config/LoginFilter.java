@@ -50,8 +50,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             String pw = loginMember.getPassword();
             SocialType socialType = loginMember.getSocialType();
             if (SocialType.GOOGLE.equals(socialType)) {
-                UsernamePasswordAuthenticationToken authToken = socialUserLoginApi.createGoogleToken(loginMember, passwordEncoder);
-                return getAuthenticationManager().authenticate(authToken);
+                return socialUserLoginApi.authenticate(loginMember, passwordEncoder);
             } else {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, pw);
                 return getAuthenticationManager().authenticate(authToken);
