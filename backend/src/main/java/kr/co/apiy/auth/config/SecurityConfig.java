@@ -25,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final SocialUserLoginApi socialUserLoginApi;
     private final ObjectMapper objectMapper;
     @Value("${jwt.secret}") String secretKey;
 
@@ -81,7 +82,7 @@ public class SecurityConfig {
     }
 
     public LoginFilter apiLoginFilter(AuthenticationManager authenticationManager) {
-        LoginFilter loginFilter = new LoginFilter("/member/login", jwtUtil(), objectMapper);
+        LoginFilter loginFilter = new LoginFilter("/member/login", jwtUtil(), objectMapper, socialUserLoginApi, passwordEncoder());
         loginFilter.setAuthenticationManager(authenticationManager);
         return loginFilter;
     }

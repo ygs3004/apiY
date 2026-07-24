@@ -17,10 +17,11 @@ const handleMenu = () => {
   onMenu.value = !onMenu.value
 }
 
-const isLogin = ref(!!$utils.getSessionStorageItem("loginUser"));
-const loginUserName = ref("");
+const loginUser = ref($utils.getSessionStorageItem("loginUser"));
+const isLogin = ref(!!loginUser.value);
+const loginUserName = ref(loginUser.value?.loginUserName || "");
 
-const login = () => {
+const loginSuccess = () => {
   isLogin.value = true;
   const loginUser = $utils.getSessionStorageItem("loginUser");
   loginUserName.value = loginUser.loginUserName;
@@ -36,11 +37,6 @@ const logout = () => {
   loginUserName.value = "";
   goLoginPage();
 }
-
-// const authTest = () => {
-//   $axios.post("/sample/security")
-// }
-
 </script>
 
 <template>
@@ -57,18 +53,17 @@ const logout = () => {
         <VListItem prepend-icon="mdi-help-box-outline" title="퀴즈" @click="goPage('quiz')"></VListItem>
       </VList>
     </VNavigationDrawer>
-    <VAppBar color="primary" height="50">
+    <VAppBar color="primary" height="50" :title="loginUserName ? `${loginUserName}님 좋은하루 되세요!` : ``">
       <template v-slot:prepend>
         <VDivider class="my-16" length="90%"/>
         <VAppBarNavIcon @click="handleMenu"/>
       </template>
       <template v-slot:append>
         <VRow v-if="!isLogin" class="cursor-pointer" align="center" @click="goLoginPage">
-          <VAppBarTitle text=""/>
+          <VAppBarTitle text="Sign In"/>
           <VIcon class="mr-5 ml-2" icon="mdi-login"/>
         </VRow>
         <VRow v-else class="cursor-pointer" align="center" @click="logout">
-          <VAppBarTitle text=""/>
           <VIcon class="mr-5 ml-2" icon="mdi-logout"/>
         </VRow>
       </template>
@@ -76,7 +71,7 @@ const logout = () => {
 
     <VMain class="d-flex align-center justify-center" width="100vw">
       <VContainer class="px-0">
-        <router-view v-on:login="login"/>
+        <router-view @loginSuccess="loginSuccess"/>
       </VContainer>
     </VMain>
   </VLayout>

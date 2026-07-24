@@ -4,7 +4,9 @@ import {getCurrentInstance, onBeforeMount} from "vue";
 const {proxy} = getCurrentInstance();
 const {$axios} = proxy;
 onBeforeMount(() => {
-  $axios.post("/sample/healthcheck").then((res) => console.log(res));
+  $axios.post("/sample/healthcheck").then((_res) => {
+    // console.log(res)
+  });
 })
 
 </script>

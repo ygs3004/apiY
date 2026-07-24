@@ -20,4 +20,6 @@ public class LoginRequest {
     @NotBlank
     private String password;
 
+    private SocialType socialType;
+    private String socialCode;
 }

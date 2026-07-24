@@ -6,15 +6,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.apiy.auth.dto.AuthMemberDto;
 import kr.co.apiy.auth.dto.LoginRequest;
+import kr.co.apiy.auth.dto.SocialType;
 import kr.co.apiy.auth.exception.LoginFailException;
+import kr.co.apiy.auth.exception.SocialLoginFailException;
 import kr.co.apiy.auth.utils.JwtUtils;
-import kr.co.apiy.global.exception.InternalServerException;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
 import java.io.IOException;
@@ -26,11 +28,15 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private final JwtUtils jwtUtils;
     private final ObjectMapper objectMapper;
+    private final SocialUserLoginApi socialUserLoginApi;
+    private final PasswordEncoder passwordEncoder;
 
-    public LoginFilter(String defaultFilterProcessesUrl, JwtUtils jwtUtils, ObjectMapper objectMapper) {
+    public LoginFilter(String defaultFilterProcessesUrl, JwtUtils jwtUtils, ObjectMapper objectMapper, SocialUserLoginApi socialUserLoginApi, PasswordEncoder passwordEncoder) {
         super(defaultFilterProcessesUrl);
         this.jwtUtils = jwtUtils;
         this.objectMapper = objectMapper;
+        this.socialUserLoginApi = socialUserLoginApi;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -42,9 +48,17 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             LoginRequest loginMember = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
             String email = loginMember.getEmail();
             String pw = loginMember.getPassword();
-            log.info("login try Email: {}", email);
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, pw);
-            return getAuthenticationManager().authenticate(authToken);
+            SocialType socialType = loginMember.getSocialType();
+            if (SocialType.GOOGLE.equals(socialType)) {
+                UsernamePasswordAuthenticationToken authToken = socialUserLoginApi.createGoogleToken(loginMember, passwordEncoder);
+                return getAuthenticationManager().authenticate(authToken);
+            } else {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, pw);
+                return getAuthenticationManager().authenticate(authToken);
+            }
+        } catch (SocialLoginFailException e) {
+            log.warn(e);
+            throw new LoginFailException(e.getMessage());
         } catch (AuthenticationException e) {
             log.info(e.getMessage());
             throw new LoginFailException("아이디 또는 비밀번호가 잘못 되었습니다.");
@@ -68,6 +82,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
             JSONObject json = new JSONObject();
             json.put("tokenType", JwtUtils.TOKEN_TYPE_BEARER);
+            json.put("loginUserEmail", email);
             json.put("loginUserName", loginUserName);
             json.put("accessToken", token);
             out.print(json);

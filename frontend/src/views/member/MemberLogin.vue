@@ -20,26 +20,72 @@ const goSignupPage = () => {
 const email = ref("");
 const password = ref("");
 
-const emit = defineEmits(['login'])
+const emit = defineEmits(['loginSuccess'])
 const submit = async (event) => {
   const checkEvent = await event;
-  if (isValid.value){
-    const response = await $axios.post("member/login", {
+  if (isValid.value) {
+    const response = await $axios.post("/member/login", {
       email: email.value,
       password: password.value,
     })
 
     if (response.status === HttpStatusCode.Ok) {
       $utils.setSessionStorageItem("loginUser", response.data);
-      emit('login');
+      emitLoginSuccess();
       await router.push("/");
     }
 
-  }else{
+  } else {
     const invalidInputId = checkEvent.errors[0].id;
     document.querySelector(`#${invalidInputId}`).focus();
   }
 }
+
+const emitLoginSuccess = () => {
+  emit('loginSuccess');
+}
+
+const googleLogin = () => {
+  // Google's OAuth 2.0 endpoint for requesting an access token
+  const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+  const scope = [
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/userinfo.email",
+  ].join(" ");
+
+  // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+  const form = document.createElement('form');
+  form.setAttribute('method', 'GET'); // Send as a GET request.
+  form.setAttribute('action', oauth2Endpoint);
+
+  const key = import.meta.env.VITE_GOOGLE_LOGIN_KEY;
+  const randomState = (Math.random() * 1000000).toString().substring(0, 6);
+  $utils.setSessionStorageItem("googleState", randomState);
+  // Parameters to pass to OAuth 2.0 endpoint.
+  const params = {
+    'client_id': key,
+    'redirect_uri': `${window.location.origin}/login/google`,
+    'response_type': 'code',
+    scope,
+    'include_granted_scopes': 'true',
+    state: randomState
+  };
+
+  // Add form parameters as hidden input values.
+  for (const p in params) {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('name', p);
+    input.setAttribute('value', params[p]);
+    form.appendChild(input);
+  }
+
+  // Add form to page and submit it to open the OAuth 2.0 endpoint.
+  document.body.appendChild(form);
+  form.submit();
+}
+
 </script>
 
 <template>
@@ -51,7 +97,6 @@ const submit = async (event) => {
         rounded="lg"
     >
       <div class="text-subtitle-1 text-medium-emphasis">Email</div>
-
       <VTextField
           v-model="email"
           density="compact"
@@ -63,14 +108,14 @@ const submit = async (event) => {
 
       <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
         Password
-<!--        <a-->
-<!--            class="text-caption text-decoration-none text-blue"-->
-<!--            href="#"-->
-<!--            rel="noopener noreferrer"-->
-<!--            target="_blank"-->
-<!--        >-->
-<!--&lt;!&ndash;          비밀번호를 잃어버리셨나요?&ndash;&gt;-->
-<!--        </a>-->
+        <!--        <a-->
+        <!--            class="text-caption text-decoration-none text-blue"-->
+        <!--            href="#"-->
+        <!--            rel="noopener noreferrer"-->
+        <!--            target="_blank"-->
+        <!--        >-->
+        <!--&lt;!&ndash;          비밀번호를 잃어버리셨나요?&ndash;&gt;-->
+        <!--        </a>-->
       </div>
 
       <VTextField
@@ -95,22 +140,33 @@ const submit = async (event) => {
       <!--      </VCard>-->
 
       <VBtn class="my-5 bold"
-          color="primary"
-          size="large"
-          variant="elevated"
-          type="submit"
-          text="로그인"
-          block>
+            color="primary"
+            size="large"
+            variant="elevated"
+            type="submit"
+            text="로그인"
+            block>
       </VBtn>
+
+      <VBtn class="my-5 bold"
+            color="info"
+            size="large"
+            variant="elevated"
+            text="구글 계정으로 로그인"
+            @click="googleLogin"
+            block>
+      </VBtn>
+
       <VBtn class="my-1"
-          color="success"
-          size="large"
-          variant="elevated"
-          block
-          @click="goSignupPage">
+            color="success"
+            size="large"
+            variant="elevated"
+            block
+            @click="goSignupPage">
         회원가입
         <v-icon icon="mdi-chevron-right"></v-icon>
       </VBtn>
     </VCard>
   </VForm>
+  <router-view @loginSuccess="emitLoginSuccess"></router-view>
 </template>

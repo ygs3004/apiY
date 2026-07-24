@@ -42,7 +42,7 @@ globalAxios.interceptors.response.use(
             }
         }
 
-        if(error.response.data.message){
+        if(error.response?.data.message){
             useModal().showModal({
                 content: error.response.data.message
             })

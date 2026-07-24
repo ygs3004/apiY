@@ -32,7 +32,7 @@ public class MemberController {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "401", description = "실패")
     })
-    public void login(LoginRequest LoginRequest) {
+    public void login(@RequestBody LoginRequest LoginRequest) {
         /* Spring Security Filter 에서 처리, Controller 진입전에 처리완료 */
     }
 

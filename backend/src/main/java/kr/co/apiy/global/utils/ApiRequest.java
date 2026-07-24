@@ -1,5 +1,6 @@
 package kr.co.apiy.global.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.apiy.global.exception.InternalServerException;
 import lombok.SneakyThrows;
@@ -23,8 +24,10 @@ import java.util.StringJoiner;
 public class ApiRequest {
 
     private final WebClient webClient;
+    private final ObjectMapper objectMapper;
 
-    public ApiRequest(){
+    public ApiRequest(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
         this.webClient = WebClient
                 .builder()
                 .defaultHeaders( httpHeaders -> {
@@ -59,8 +62,11 @@ public class ApiRequest {
                     log.info("Request Get URI: {}", uri);
                     return uri;
                 })
-                .retrieve()
-                .bodyToMono(String.class)
+                .exchangeToMono(response -> {
+                    log.info("status={}", response.statusCode());
+                    return response.bodyToMono(String.class)
+                            .doOnNext(log::info);
+                })
                 .timeout(Duration.ofSeconds(10))
                 .doOnError(log::warn)
                 .block();
@@ -82,7 +88,7 @@ public class ApiRequest {
         return joiner.toString();
     }
 
-    public <T> String post(String baseUri, String subUri, Map<String, String> headers, T requestBody){
+    public <T> String post(String baseUri, String subUri, T requestBody, Map<String, String> headers){
         return webClient
                 .mutate()
                 .baseUrl(baseUri)
@@ -93,8 +99,11 @@ public class ApiRequest {
                         .path(subUri)
                         .build())
                 .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(String.class)
+                .exchangeToMono(response -> {
+                    log.info("status={}", response.statusCode());
+                    return response.bodyToMono(String.class)
+                            .doOnNext(log::info);
+                })
                 .timeout(Duration.ofSeconds(10))
                 .doOnError(log::warn)
                 .block();
@@ -108,12 +117,20 @@ public class ApiRequest {
                 .post()
                 .uri(uriBuilder -> {
                     URI uri = uriBuilder.path(subUri).build();
-                    log.info("Request Post URI: {}", uri);
+                    try{
+                        log.info("Request Post URI: {}", uri);
+                        log.info("Request Body: {}",objectMapper.writeValueAsString(requestBody));
+                    }catch (Exception e){
+                        log.info(e.getMessage());
+                    }
                     return uri;
                 })
                 .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(String.class)
+                .exchangeToMono(response -> {
+                    log.info("status={}", response.statusCode());
+                    return response.bodyToMono(String.class)
+                            .doOnNext(log::info);
+                })
                 .timeout(Duration.ofSeconds(10))
                 .doOnError(log::warn)
                 .block();
