@@ -53,15 +53,16 @@ const isLogin = ref(!!loginUser);
   <VLayout>
 <!--    <VBtn @click="saveTestData">테스트</VBtn>-->
     <VInfiniteScroll class="mx-auto w-lg-50 cursor-pointer" width="90%" height="50%" :items="quizSets" :onLoad="load">
-      <VBtn v-if="isLogin" color="primary" class="right-0" prepend-icon="mdi-pencil-plus" @click="goQuizCreatePage">
-        퀴즈 등록은 관리자에게 문의해주세요
+<!--      <VBtn v-if="isLogin" color="primary" class="right-0" prepend-icon="mdi-pencil-plus" @click="goQuizCreatePage">-->
+      <VBtn color="primary" class="right-0" prepend-icon="mdi-pencil-plus" @click="goQuizCreatePage">
+        퀴즈 등록
       </VBtn>
-      <VTextField v-else-if="true" bg-color="primary" variant="filled" readonly>
-        퀴즈 등록하기
-      </VTextField>
-      <VTextField v-else bg-color="primary" variant="filled" @click="goLoginPage"  readonly>
-        로그인 후 퀴즈를 등록해주세요
-      </VTextField>
+<!--      <VTextField v-else-if="true" bg-color="primary" variant="filled" readonly>-->
+<!--        퀴즈 등록하기-->
+<!--      </VTextField>-->
+<!--      <VTextField v-else bg-color="primary" variant="filled" @click="goLoginPage"  readonly>-->
+<!--        로그인 후 퀴즈를 등록해주세요-->
+<!--      </VTextField>-->
       <VList lines="three">
         <template v-for="(quizSet) in quizSets"
                   :key="quizSet.id">
