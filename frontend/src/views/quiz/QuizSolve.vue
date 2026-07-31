@@ -158,7 +158,7 @@ const submitAnswer =  async () => {
                          height="auto"
                          @click="onSelectAnswer(item.id, toggle)">
                     <div class="text-h6 flex-grow-1 px-3">
-                      {{ idx + 1 }}
+                      {{ idx + 1 }}.
                       {{ item.answer }}
                     </div>
                   </VCard>
